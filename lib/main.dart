@@ -1,7 +1,16 @@
+import 'package:custom_barber_shop/state/state_management.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_ui/firebase_auth_ui.dart';
+import 'package:firebase_auth_ui/providers.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/all.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -47,18 +56,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
+  GlobalKey<ScaffoldState> scaffoldState = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-
+      key: scaffoldStater,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -73,11 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(16),
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton.icon(
+                onPressed: () => processLogin(context),
                 icon: Icon(Icons.phone, color: Colors.white,),
                 label: Text('LOGIN CON NUMERO', style: TextStyle(color: Colors.white),),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.black)
-                ), onPressed: () {  },
+                ),
               )
             )
           ],
@@ -85,5 +89,32 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
 // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  processLogin(BuildContext context) {
+    var user = FirebaseAuth.instance.currentUser;
+    if(user == null){
+      FirebaseAuthUi.instance()
+          .launchAuth([
+            AuthProvider.phone()
+      ]).then((firebaseUser){
+          //refresh state
+        context.read(userLogged).state = FirebaseAuth.instance.currentUser;
+        ScaffoldMessenger.of(scaffoldState.currentContext).showSnackBar
+          (SnackBar(content: Text('Login avvenuto con successo ${FirebaseAuth.instance.currentUser.phoneNumber}')));
+      }).catchError((ex){
+        if(ex is PlatformException){
+          if(ex.code == FirebaseAuthUi.kUserCancelledError){
+            ScaffoldMessenger.of(scaffoldState.currentContext).showSnackBar
+              (SnackBar(content: Text('${ex.message}')));
+          }else{
+            ScaffoldMessenger.of(scaffoldState.currentContext).showSnackBar
+              (SnackBar(content: Text('Errore sconosciuto}')));
+          }
+        }
+      });
+    }else{
+
+    }
   }
 }

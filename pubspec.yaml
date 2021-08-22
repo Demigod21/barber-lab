@@ -34,6 +34,7 @@ dependencies:
   firebase_core: any
   hooks_riverpod: any
   page_transition: any
+  cloud_firestore: any
 
 dev_dependencies:
   flutter_test:

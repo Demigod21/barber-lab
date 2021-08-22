@@ -1,7 +1,16 @@
+import 'package:custom_barber_shop/state/state_management.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_ui/firebase_auth_ui.dart';
+import 'package:firebase_auth_ui/providers.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hooks_riverpod/all.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,7 +37,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -46,68 +55,66 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  GlobalKey<ScaffoldState> scaffoldState = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      key: scaffoldState,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/my_bg.png'),
+            fit: BoxFit.cover
+          )
+        ),
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              width: MediaQuery.of(context).size.width,
+              child: ElevatedButton.icon(
+                onPressed: () => processLogin(context),
+                icon: Icon(Icons.phone, color: Colors.white,),
+                label: Text('LOGIN CON NUMERO', style: TextStyle(color: Colors.white),),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.black)
+                ),
+              )
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+// This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  processLogin(BuildContext context) {
+    var user = FirebaseAuth.instance.currentUser;
+    if(user == null){
+      FirebaseAuthUi.instance()
+          .launchAuth([
+            AuthProvider.phone()
+      ]).then((firebaseUser){
+          //refresh state
+        context.read(userLogged).state = FirebaseAuth.instance.currentUser;
+        ScaffoldMessenger.of(scaffoldState.currentContext).showSnackBar
+          (SnackBar(content: Text('Login avvenuto con successo ${FirebaseAuth.instance.currentUser.phoneNumber}')));
+      }).catchError((ex){
+        if(ex is PlatformException){
+          if(ex.code == FirebaseAuthUi.kUserCancelledError){
+            ScaffoldMessenger.of(scaffoldState.currentContext).showSnackBar
+              (SnackBar(content: Text('${ex.message}')));
+          }else{
+            ScaffoldMessenger.of(scaffoldState.currentContext).showSnackBar
+              (SnackBar(content: Text('Errore sconosciuto}')));
+          }
+        }
+      });
+    }else{
+
+    }
   }
 }

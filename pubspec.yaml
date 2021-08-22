@@ -33,6 +33,7 @@ dependencies:
   firebase_auth_ui: any
   firebase_core: any
   hooks_riverpod: any
+  page_transition: any
 
 dev_dependencies:
   flutter_test:

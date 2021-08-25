@@ -35,6 +35,7 @@ dependencies:
   hooks_riverpod: any
   page_transition: any
   cloud_firestore: any
+  rflutter_alert: any
 
 dev_dependencies:
   flutter_test:

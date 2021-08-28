@@ -1,5 +1,9 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_barber_shop/screens/booking_screen.dart';
 import 'package:custom_barber_shop/screens/home_screen.dart';
+import 'package:custom_barber_shop/screens/realhome_screen.dart';
+import 'package:custom_barber_shop/screens/user_screen.dart';
 import 'package:custom_barber_shop/state/state_management.dart';
 import 'package:custom_barber_shop/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,7 +33,19 @@ class MyApp extends StatelessWidget {
           case '/home':
             return PageTransition(
                 settings: settings,
-                child: HomePage(),
+                child: Home(),
+                type: PageTransitionType.fade);
+            break;
+          case '/utenti':
+            return PageTransition(
+                settings: settings,
+                child: UserC(),
+                type: PageTransitionType.fade);
+            break;
+          case '/prenotazione':
+            return PageTransition(
+                settings: settings,
+                child: Booking(),
                 type: PageTransitionType.fade);
             break;
           default:
@@ -57,6 +73,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends ConsumerWidget {
 
   GlobalKey<ScaffoldState> scaffoldState = new GlobalKey();
+  int index = 0;
 
   //called when we login (not every time we open the app)
   processLogin(BuildContext context) async {
@@ -241,4 +258,5 @@ class MyHomePage extends ConsumerWidget {
         ? LOGIN_STATE.LOGGED
         : LOGIN_STATE.NOT_LOGGED;
   }
+
 }

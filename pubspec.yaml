@@ -37,6 +37,7 @@ dependencies:
   cloud_firestore: any
   rflutter_alert: any
   bottom_navy_bar: ^6.0.0
+  im_stepper: any
 
 dev_dependencies:
   flutter_test:

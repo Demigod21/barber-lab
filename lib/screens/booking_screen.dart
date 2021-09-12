@@ -2,6 +2,7 @@ import 'dart:core';
 import 'dart:core';
 import 'dart:core';
 
+import 'package:custom_barber_shop/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -21,6 +22,7 @@ class BookingPage extends State<Booking>{
   int step = 1;
   var now = DateTime.now();
   var selectedDate = DateTime.now();
+  var selectedSlot = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
@@ -36,6 +38,7 @@ class BookingPage extends State<Booking>{
           numberStyle: TextStyle(color: Colors.white),
         ),
         Expanded(
+          flex: 10,
           child: step == 1? displayTimeSlots()  : Container(),
         ),
         Expanded(child: Align(
@@ -126,6 +129,33 @@ class BookingPage extends State<Booking>{
                 )
               ),
             ],
+          )
+        ),
+        Expanded(
+          child: GridView.builder(
+            itemCount : TIME_SLOT.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3
+            ),
+            itemBuilder: (context, index) => GestureDetector(
+              onTap: ()=> setState(() => this.selectedSlot = TIME_SLOT.elementAt(index)),
+              child : Card(
+                  color : this.selectedSlot == TIME_SLOT.elementAt(index)? Colors.white : Colors.grey,
+                  child: GridTile(
+                      child: Center(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('${TIME_SLOT.elementAt(index)}'),
+                                Text('Disponibile')
+                              ]
+                          )
+                      )
+                  )
+              ),
+            )
+
           )
         )
       ],

@@ -36,8 +36,10 @@ dependencies:
   page_transition: any
   cloud_firestore: any
   rflutter_alert: any
-  bottom_navy_bar: ^6.0.0
   im_stepper: any
+  bottom_navy_bar: ^6.0.0
+  intl: any
+  flutter_datetime_picker: any
 
 dev_dependencies:
   flutter_test:

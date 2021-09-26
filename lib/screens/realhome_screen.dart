@@ -24,7 +24,7 @@ class RealHomePage extends State<RealHome>{
               children: [
                 //user profile
                 FutureBuilder(
-                    future: getUserProfiles(
+                    future: getUserProfiles(context,
                         FirebaseAuth.instance.currentUser.phoneNumber),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {

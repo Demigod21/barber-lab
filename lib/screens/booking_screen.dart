@@ -2,7 +2,10 @@ import 'dart:core';
 import 'dart:core';
 import 'dart:core';
 
+import 'package:custom_barber_shop/model/barber_model.dart';
+import 'package:custom_barber_shop/state/state_management.dart';
 import 'package:custom_barber_shop/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -19,27 +22,35 @@ class Booking extends StatefulWidget{
 }
 
 class BookingPage extends State<Booking>{
+  GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey();
+
   int step = 1;
   var now = DateTime.now();
   var selectedDate = DateTime.now();
-  var selectedSlot = '';
+  var selectedTime = '';
+  var selectedTimeSlot = -1;
+  var note = '';
+  var noteController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
+      key: scaffoldKey,
       body: Column( children: [
         NumberStepper(
             activeStep: step-1,
           direction: Axis.horizontal,
           enableNextPreviousButtons: false,
           enableStepTapping: false,
-          numbers: [1,2,3],
+          numbers: [1,2],
           stepColor: Colors.black,
           activeStepColor: Colors.grey,
           numberStyle: TextStyle(color: Colors.white),
         ),
         Expanded(
           flex: 10,
-          child: step == 1? displayTimeSlots()  : Container(),
+          child: step == 1? displayTimeSlots()  :
+                  step == 2? displayConfirm() : Container(),
         ),
         Expanded(child: Align(
           alignment: Alignment.bottomCenter,
@@ -59,7 +70,7 @@ class BookingPage extends State<Booking>{
                 ),
                 Expanded(
                   child : ElevatedButton(
-                      onPressed: step == 3 ? null : ()=> setState(() => this.step++),
+                      onPressed: step == 2 ? null : ()=> setState(() => this.step++),
                       child: Text('Avanti')
                   ),
                 ),
@@ -138,9 +149,14 @@ class BookingPage extends State<Booking>{
               crossAxisCount: 3
             ),
             itemBuilder: (context, index) => GestureDetector(
-              onTap: ()=> setState(() => this.selectedSlot = TIME_SLOT.elementAt(index)),
+              onTap: () {
+                setState(() {
+                  this.selectedTime = TIME_SLOT.elementAt(index);
+                  this.selectedTimeSlot = index;
+                });
+              },
               child : Card(
-                  color : this.selectedSlot == TIME_SLOT.elementAt(index)? Colors.white : Colors.grey,
+                  color : this.selectedTime == TIME_SLOT.elementAt(index)? Colors.white : Colors.grey,
                   child: GridTile(
                       child: Center(
                           child: Column(
@@ -156,6 +172,101 @@ class BookingPage extends State<Booking>{
               ),
             )
 
+          )
+        )
+      ],
+    );
+  }
+
+  confirmBooking() {
+    var timeStamp = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      int.parse(selectedTime.split(':')[0].substring(0,2)),
+      int.parse(selectedTime.split(':')[1].substring(0,2)),
+    );
+    var submitData = {
+      'customerName': context.read(userInformation).state.name,
+      'customerPhone': FirebaseAuth.instance.currentUser.phoneNumber,
+      'done': false,
+      'slot': selectedTimeSlot,
+      'timeStamp' : timeStamp,
+      'time' : '${selectedTime} - ${DateFormat('dd/MM/yyy').format(selectedDate)}',
+      'note' : '',
+    };
+
+    BarberModel barberModel = new BarberModel('Lorenzo');
+
+    context
+      .read(selectedBarber)
+      .state = barberModel;
+
+    context
+      .read(selectedBarber)
+      .state
+      .reference
+      .collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
+    .doc(selectedTimeSlot.toString())
+    .set(submitData)
+    .then((value){
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(scaffoldKey.currentContext).showSnackBar(SnackBar(
+        content: Text ('Prenotazione Confermata')
+      ));
+    });
+
+    setState(() {
+      this.selectedTimeSlot = -1;
+      this.selectedDate = DateTime.now();
+      this.selectedTime = '';
+      this.step = 1;
+    });
+
+
+  }
+
+  displayConfirm() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Image.asset('assets/images/logo.png')
+          ),
+        ),
+        Expanded(
+          child:Container(
+            width: MediaQuery.of(context).size.width,
+            child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child : Column(
+                    children: [
+                      Text('Conferma la tua prenotazione!'.toUpperCase(),
+                        style: GoogleFonts.robotoMono(fontWeight: FontWeight.bold)),
+                      Text('Informazioni sul tuo appuntamento'.toUpperCase(),
+                          style: GoogleFonts.robotoMono()),
+                      Row(children: [
+                        Icon(Icons.calendar_today),
+                        SizedBox(width: 20,),
+                        Text('${this.selectedTime} - ${DateFormat('dd/MM/yyyy').format(selectedDate)}'.toUpperCase(),
+                            style: GoogleFonts.robotoMono()),
+                      ]),
+                      SizedBox(height: 10,),
+                      TextField(
+                        decoration : new InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Inserisci delle note sul tuo appuntamneto',
+                        ),
+                        controller: noteController,
+                      )
+                    ]
+
+              )
+            ))
           )
         )
       ],

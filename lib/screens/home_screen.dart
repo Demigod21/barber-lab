@@ -30,23 +30,6 @@ class HomePage extends State<Home> {
     ));
   }
 
-  // Widget buildBottomnavBar(){
-  //   return BottomNavigationBar(
-  //     currentIndex: this.index,
-  //       onTap: (index) => setState(()=> this.index = index),
-  //       items: [
-  //         BottomNavigationBarItem(
-  //           icon: Icon(Icons.home),
-  //           title: Text('Home'),
-  //         ),
-  //         BottomNavigationBarItem(
-  //           icon: Icon(Icons.home),
-  //           title: Text('Utente'),
-  //         ),
-  //       ]
-  //   );
-  // }
-
   Widget buildBottomNavigationBar() {
     return BottomNavyBar(
       selectedIndex: index,

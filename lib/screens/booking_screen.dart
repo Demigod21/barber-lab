@@ -2,6 +2,8 @@ import 'dart:core';
 import 'dart:core';
 import 'dart:core';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/model/barber_model.dart';
 import 'package:custom_barber_shop/state/state_management.dart';
 import 'package:custom_barber_shop/utils/utils.dart';
@@ -31,6 +33,7 @@ class BookingPage extends State<Booking>{
   var selectedTimeSlot = -1;
   var note = '';
   var noteController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -143,46 +146,63 @@ class BookingPage extends State<Booking>{
           )
         ),
         Expanded(
-          child: GridView.builder(
-            itemCount : TIME_SLOT.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3
-            ),
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                setState(() {
-                  this.selectedTime = TIME_SLOT.elementAt(index);
-                  this.selectedTimeSlot = index;
-                });
-              },
-              child : Card(
-                  color : this.selectedTime == TIME_SLOT.elementAt(index)? Colors.white : Colors.grey,
-                  child: GridTile(
-                      child: Center(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text('${TIME_SLOT.elementAt(index)}'),
-                                Text('Disponibile')
-                              ]
+          child: FutureBuilder(
+            future: getTimeSlotLorenzo(DateFormat('dd_MM_yyyy').format(selectedDate)),
+            builder: (context, snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return Center(child: CircularProgressIndicator(),);
+              }else{
+                var listTimeSlot = snapshot.data as List<int>;
+                return GridView.builder(
+                    itemCount : TIME_SLOT.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3
+                    ),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: listTimeSlot.contains(index)? null : (){
+                        setState(() {
+                          this.selectedTime = TIME_SLOT.elementAt(index);
+                          this.selectedTimeSlot = index;
+                        });
+                      },
+                      child : Card(
+                          color : listTimeSlot.contains(index)? Colors.white10 : this.selectedTime == TIME_SLOT.elementAt(index)? Colors.white : Colors.grey,
+                          child: GridTile(
+                              child: Center(
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('${TIME_SLOT.elementAt(index)}'),
+                                        Text(listTimeSlot.contains(index)? 'Non disponibile' : 'Disponibile')
+                                      ]
+                                  )
+                              )
                           )
-                      )
-                  )
-              ),
-            )
-
-          )
+                      ),
+                    )
+                );
+              }
+            },
+          ),
         )
       ],
     );
   }
 
   confirmBooking() {
+    var hour = selectedTime.length <= 10 ? selectedTime.split(':')[0].substring(0,1) : selectedTime.split(':')[0].substring(0,2);
+    var minutes = selectedTime.length <= 10 ? selectedTime.split(':')[1].substring(0,1) : selectedTime.split(':')[0].substring(0,2);
+
+    setState(() {
+      this.note = noteController.text;
+    });
+
     var timeStamp = DateTime(
       selectedDate.year,
       selectedDate.month,
       selectedDate.day,
+
       int.parse(selectedTime.split(':')[0].substring(0,2)),
       int.parse(selectedTime.split(':')[1].substring(0,2)),
     );
@@ -193,34 +213,32 @@ class BookingPage extends State<Booking>{
       'slot': selectedTimeSlot,
       'timeStamp' : timeStamp,
       'time' : '${selectedTime} - ${DateFormat('dd/MM/yyy').format(selectedDate)}',
-      'note' : '',
+      'note' : note,
     };
 
-    BarberModel barberModel = new BarberModel('Lorenzo');
 
-    context
-      .read(selectedBarber)
-      .state = barberModel;
+    final databaseReference = FirebaseFirestore.instance;
 
-    context
-      .read(selectedBarber)
-      .state
-      .reference
-      .collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
-    .doc(selectedTimeSlot.toString())
-    .set(submitData)
-    .then((value){
-      Navigator.of(context).pop();
+    databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
+        .doc(selectedTimeSlot.toString())
+        .set(submitData)
+        .then((value){
+      // Navigator.of(context).pop();
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       ScaffoldMessenger.of(scaffoldKey.currentContext).showSnackBar(SnackBar(
-        content: Text ('Prenotazione Confermata')
+          content: Text ('Prenotazione Confermata')
       ));
     });
+
 
     setState(() {
       this.selectedTimeSlot = -1;
       this.selectedDate = DateTime.now();
       this.selectedTime = '';
       this.step = 1;
+    });
+
+    setState(() {
     });
 
 
@@ -262,9 +280,11 @@ class BookingPage extends State<Booking>{
                           hintText: 'Inserisci delle note sul tuo appuntamneto',
                         ),
                         controller: noteController,
-                      )
+                      ),
+                      ElevatedButton(onPressed: ()=> confirmBooking(),
+                      child: Text('Conferma'),
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.black26)))
                     ]
-
               )
             ))
           )

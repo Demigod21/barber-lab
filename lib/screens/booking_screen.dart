@@ -5,6 +5,7 @@ import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/model/barber_model.dart';
+import 'package:custom_barber_shop/model/booking_model.dart';
 import 'package:custom_barber_shop/state/state_management.dart';
 import 'package:custom_barber_shop/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -205,10 +206,22 @@ class BookingPage extends State<Booking>{
 
       int.parse(selectedTime.split(':')[0].substring(0,2)),
       int.parse(selectedTime.split(':')[1].substring(0,2)),
+    ).millisecondsSinceEpoch;
+    var bookingModel = BookingModel(
+        customerName: context.read(userInformation).state.name,
+    customerPhone: FirebaseAuth.instance.currentUser.phoneNumber,
+    barberName : 'LorenzoStaff',
+    done: false,
+    slot: selectedTimeSlot,
+    timeStamp : timeStamp,
+    time : '${selectedTime} - ${DateFormat('dd/MM/yyy').format(selectedDate)}',
+    note : note,
     );
+
     var submitData = {
       'customerName': context.read(userInformation).state.name,
       'customerPhone': FirebaseAuth.instance.currentUser.phoneNumber,
+      'barberName' : 'LorenzoStaff',
       'done': false,
       'slot': selectedTimeSlot,
       'timeStamp' : timeStamp,

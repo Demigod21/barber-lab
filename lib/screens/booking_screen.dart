@@ -40,6 +40,7 @@ class BookingPage extends State<Booking>{
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       key: scaffoldKey,
+      resizeToAvoidBottomInset: true,
       body: Column( children: [
         NumberStepper(
             activeStep: step-1,
@@ -229,31 +230,36 @@ class BookingPage extends State<Booking>{
       'note' : note,
     };
 
-
     final databaseReference = FirebaseFirestore.instance;
 
-    databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
-        .doc(selectedTimeSlot.toString())
-        .set(submitData)
-        .then((value){
-      // Navigator.of(context).pop();
+    var batch = FirebaseFirestore.instance.batch();
+
+    DocumentReference barberBooking = databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
+        .doc(selectedTimeSlot.toString());
+
+    DocumentReference userBooking = FirebaseFirestore.instance.collection('User').doc(FirebaseAuth.instance.currentUser.phoneNumber)
+    .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
+    .doc();
+
+    batch.set(barberBooking, bookingModel.toJson());
+    batch.set(userBooking, bookingModel.toJson());
+    batch.commit().then((value){
+
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       ScaffoldMessenger.of(scaffoldKey.currentContext).showSnackBar(SnackBar(
           content: Text ('Prenotazione Confermata')
       ));
+
+      setState(() {
+        this.selectedTimeSlot = -1;
+        this.selectedDate = DateTime.now();
+        this.selectedTime = '';
+        this.step = 1;
+      });
+
+      setState(() {
+      });
     });
-
-
-    setState(() {
-      this.selectedTimeSlot = -1;
-      this.selectedDate = DateTime.now();
-      this.selectedTime = '';
-      this.step = 1;
-    });
-
-    setState(() {
-    });
-
 
   }
 

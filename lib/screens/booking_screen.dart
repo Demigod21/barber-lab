@@ -244,6 +244,16 @@ class BookingPage extends State<Booking>{
 
   }
 
+  bool isAvailable(List<int> listTimeSlot, int index){
+    bool output = false;
+    output = listTimeSlot.contains(index)? false : true;
+    output = selectedDate.weekday == DateTime.monday? false : output;
+    if(selectedDate.day == DateTime.now().weekday){
+      //todo implementare
+    }
+    return output;
+  }
+
   displayConfirm() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

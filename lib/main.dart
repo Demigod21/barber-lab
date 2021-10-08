@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_barber_shop/screens/booking_screen.dart';
 import 'package:custom_barber_shop/screens/home_screen.dart';
 import 'package:custom_barber_shop/screens/realhome_screen.dart';
+import 'package:custom_barber_shop/screens/user_history_screen.dart';
 import 'package:custom_barber_shop/screens/user_screen.dart';
 import 'package:custom_barber_shop/state/state_management.dart';
 import 'package:custom_barber_shop/utils/utils.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
           case '/utenti':
             return PageTransition(
                 settings: settings,
-                child: UserC(),
+                child: UserHistory(),
                 type: PageTransitionType.fade);
             break;
           case '/prenotazione':

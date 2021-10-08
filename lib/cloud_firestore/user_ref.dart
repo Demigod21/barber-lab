@@ -46,7 +46,7 @@ Future<List<BookingModel>> getUserHistory() async {
       .doc(FirebaseAuth.instance.currentUser.phoneNumber)
       .collection('Booking_${FirebaseAuth.instance.currentUser.uid}');
 
-  var snapshot = await userRef.orderBy('timeStamo').get();
+  var snapshot = await userRef.orderBy('timeStamp').get();
   snapshot.docs.forEach((element) {
     var booking = BookingModel.fromJson(element.data());
     booking.docId = element.id;

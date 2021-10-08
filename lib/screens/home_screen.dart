@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/model/user_model.dart';
 import 'package:custom_barber_shop/screens/realhome_screen.dart';
+import 'package:custom_barber_shop/screens/user_history_screen.dart';
 import 'package:custom_barber_shop/screens/user_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,7 +61,7 @@ class HomePage extends State<Home> {
       case 0:
         return RealHome();
       case 1:
-        return UserC();
+        return UserHistory();
       case 2:
         return Booking();
       default:

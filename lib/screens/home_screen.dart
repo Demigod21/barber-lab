@@ -1,9 +1,11 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/model/user_model.dart';
 import 'package:custom_barber_shop/screens/realhome_screen.dart';
 import 'package:custom_barber_shop/screens/user_history_screen.dart';
 import 'package:custom_barber_shop/screens/user_screen.dart';
+import 'package:custom_barber_shop/state/state_management.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'booking_screen.dart';
+
+import 'dart:developer' as developer;
+
 
 class Home extends StatefulWidget {
   @override
@@ -56,7 +61,9 @@ class HomePage extends State<Home> {
     );
   }
 
-  Widget buildBody() {
+ buildBody() {
+
+
     switch(index){
       case 0:
         return RealHome();

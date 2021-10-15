@@ -30,6 +30,7 @@ class BookingModel {
       this.note});
 
   BookingModel.fromJson(Map<String, dynamic> json) {
+    docId = json['docId'];
     barberName = json['barberName'];
     customerName = json['customerName'];
     customerPhone = json['customerPhone'];
@@ -43,6 +44,7 @@ class BookingModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['docId'] = this.docId;
     data['barberName'] = this.barberName;
     data['customerName'] = this.customerName;
     data['customerPhone'] = this.customerPhone;

@@ -14,3 +14,5 @@ final currentStep = StateProvider((ref) => 1);
 final userInformation = StateProvider((ref) => UserModel());
 
 final selectedBarber = StateProvider((ref) => BarberModel('Lorenzo'));
+
+final deleteFlagRefresh = StateProvider((ref) => false);

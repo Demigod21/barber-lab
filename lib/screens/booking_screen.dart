@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 import 'home_screen.dart';
 
@@ -208,7 +209,10 @@ class BookingPage extends State<Booking>{
       int.parse(selectedTime.split(':')[0].substring(0,2)),
       int.parse(selectedTime.split(':')[1].substring(0,2)),
     ).millisecondsSinceEpoch;
+    var uuid = Uuid();
+    var stringUuid =uuid.v4();
     var bookingModel = BookingModel(
+      docId: stringUuid,
         customerName: context.read(userInformation).state.name,
     customerPhone: FirebaseAuth.instance.currentUser.phoneNumber,
     barberName : 'LorenzoStaff',
@@ -219,28 +223,21 @@ class BookingPage extends State<Booking>{
     note : note,
     );
 
-    var submitData = {
-      'customerName': context.read(userInformation).state.name,
-      'customerPhone': FirebaseAuth.instance.currentUser.phoneNumber,
-      'barberName' : 'LorenzoStaff',
-      'done': false,
-      'slot': selectedTimeSlot,
-      'timeStamp' : timeStamp,
-      'time' : '${selectedTime} - ${DateFormat('dd/MM/yyy').format(selectedDate)}',
-      'note' : note,
-    };
-
     final databaseReference = FirebaseFirestore.instance;
 
     var batch = FirebaseFirestore.instance.batch();
 
-    DocumentReference barberBooking = databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
+    DocumentReference barberBookingTimeSlot = databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
         .doc(selectedTimeSlot.toString());
+
+    DocumentReference barberBooking = databaseReference.collection('Barber').doc('LorenzoStaff').collection('BookingStaff')
+        .doc(stringUuid);
 
     DocumentReference userBooking = FirebaseFirestore.instance.collection('User').doc(FirebaseAuth.instance.currentUser.phoneNumber)
     .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
-    .doc();
+    .doc(stringUuid);
 
+    batch.set(barberBookingTimeSlot, bookingModel.toJson());
     batch.set(barberBooking, bookingModel.toJson());
     batch.set(userBooking, bookingModel.toJson());
     batch.commit().then((value){

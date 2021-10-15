@@ -17,6 +17,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'home_screen.dart';
 
@@ -55,69 +56,168 @@ class UserHistoryPage extends State<UserHistory> {
                   child: Text(
                       'Impossibile caricare informazioni sulle prenotazioni'));
             } else {
-              return ListView.builder(itemCount: userBookings.length,
-                  itemBuilder: (context, index) {
-                return Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(22)),
-                  ),
-                  child: Column(
-                    children : [
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text('Data', style: GoogleFonts.robotoMono(),),
-                                    Text(DateFormat("dd/MM/yy").format(
-                                        DateTime.fromMicrosecondsSinceEpoch(userBookings[index].timeStamp))
-                                      , style: GoogleFonts.robotoMono(fontSize: 22, fontWeight: FontWeight.bold),),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text('Orario', style: GoogleFonts.robotoMono(),),
-                                    Text(TIME_SLOT.elementAt(userBookings[index].slot)
-                                      , style: GoogleFonts.robotoMono(fontSize: 22, fontWeight: FontWeight.bold),),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        )
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(22),
-                            bottomRight: Radius.circular(22),
-                          )
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10
+              return FutureBuilder(
+                  future: syncTime(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      var syncTime = snapshot.data as DateTime;
+
+                      return ListView.builder(
+                          itemCount: userBookings.length,
+                          itemBuilder: (context, index) {
+                            var isExpired = DateTime.fromMillisecondsSinceEpoch(
+                                    userBookings[index].timeStamp)
+                                .isBefore(syncTime);
+                            return Card(
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(22)),
                               ),
-                              child: Text('CANCELLA', style: GoogleFonts.robotoMono(color: Colors.white)),
-                            )
-                          ],
-                        )
-                      )
-                    ]
-                  ),
-                );
-              });
+                              child: Column(children: [
+                                Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Data',
+                                                  style:
+                                                      GoogleFonts.robotoMono(),
+                                                ),
+                                                Text(
+                                                  DateFormat("dd/MM/yy").format(
+                                                      DateTime
+                                                          .fromMillisecondsSinceEpoch(
+                                                              userBookings[
+                                                                      index]
+                                                                  .timeStamp)),
+                                                  style: GoogleFonts.robotoMono(
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  'Orario',
+                                                  style:
+                                                      GoogleFonts.robotoMono(),
+                                                ),
+                                                Text(
+                                                  TIME_SLOT.elementAt(
+                                                      userBookings[index].slot),
+                                                  style: GoogleFonts.robotoMono(
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )),
+                                GestureDetector(
+                                  onTap: isExpired
+                                      ? null
+                                      : () {
+                                          cancelBooking(context, userBookings[index]);
+                                        },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          color: isExpired
+                                              ? Colors.grey
+                                              : Colors.redAccent,
+                                          borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(22),
+                                            bottomRight: Radius.circular(22),
+                                          )),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10),
+                                            child: Text(
+                                                isExpired
+                                                    ? 'SCADUTO'
+                                                    : 'CANCELLA',
+                                                style: GoogleFonts.robotoMono(
+                                                    color: Colors.white)),
+                                          )
+                                        ],
+                                      )),
+                                )
+                              ]),
+                            );
+                          });
+                    }
+                  });
             }
           }
         });
+  }
+
+  void cancelBooking(BuildContext context, BookingModel bookingModel) {
+    Alert(
+        context: context,
+        type: AlertType.warning,
+        title: 'CANCELLA APPUNTAMENTO',
+        desc:
+            'Premendo su conferma, si desidera a procedere alla cancellazione della prenotazione. Si ignori pure l eventuale future notifica di reminder',
+        buttons: [
+          DialogButton(
+              child: Text('ANNULLA'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+          DialogButton(
+              child: Text('CANCELLA'),
+              onPressed: () {
+                deleteFromDatabase(bookingModel);
+              }),
+
+        ]).show();
+  }
+
+  void deleteFromDatabase(BookingModel bookingModel) {
+    final databaseReference = FirebaseFirestore.instance;
+
+    var batch = FirebaseFirestore.instance.batch();
+
+    var barberBookingSlot = databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(DateTime.fromMillisecondsSinceEpoch(bookingModel.timeStamp))}')
+        .doc(bookingModel.slot.toString());
+
+    var barberBooking = databaseReference.collection('Barber').doc('LorenzoStaff').collection('BookingStaff')
+        .doc(bookingModel.docId.toString());
+
+    var userBooking = bookingModel.reference;
+
+    batch.delete(userBooking);
+    batch.delete(barberBooking);
+    batch.delete(barberBookingSlot);
+
+    batch.commit().then((value){
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      ScaffoldMessenger.of(scaffoldKey.currentContext).showSnackBar(SnackBar(
+          content: Text ('Prenotazione Cancellata!')
+      ));
+      context.read(deleteFlagRefresh).state = !context.read(deleteFlagRefresh).state;
+    });
   }
 }

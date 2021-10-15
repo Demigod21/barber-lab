@@ -17,6 +17,11 @@ import 'package:hooks_riverpod/all.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import 'model/user_model.dart';
+
+import 'dart:developer' as developer;
+
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Firebase.initializeApp();
@@ -186,6 +191,15 @@ class MyHomePage extends ConsumerWidget {
               .read(forceReload)
               .state = true;
           if (snapshot.exists) {
+
+            CollectionReference userRef = FirebaseFirestore.instance.collection('User');
+            DocumentSnapshot snapshot = await userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber).get();
+            if (snapshot.exists) {
+              var userModel = UserModel.fromJson(snapshot.data());
+              context.read(userInformation).state = userModel;
+            }
+            context.read(userInformation).state.isStaff? developer.log("SHIPSHA") : developer.log("ROPT");
+
             //if we got here, the user already exist, we just go home
             Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
           } else {
@@ -234,6 +248,15 @@ class MyHomePage extends ConsumerWidget {
                               content: Text('PROFILO AGGIORNATO CON SUCCESSO'),
                             )
                         );
+
+                        CollectionReference userRef = FirebaseFirestore.instance.collection('User');
+                        DocumentSnapshot snapshot = await userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber).get();
+                        if (snapshot.exists) {
+                          var userModel = UserModel.fromJson(snapshot.data());
+                          context.read(userInformation).state = userModel;
+                        }
+                        context.read(userInformation).state.isStaff? developer.log("SHIPSHA") : developer.log("ROPT");
+
                         Navigator.pushNamedAndRemoveUntil(context, '/home', (
                             route) => false);
                       })

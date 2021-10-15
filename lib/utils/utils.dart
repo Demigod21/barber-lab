@@ -1,3 +1,6 @@
+
+import 'package:ntp/ntp.dart';
+
 enum LOGIN_STATE {LOGGED, NOT_LOGGED}
 
 const TIME_SLOT = {
@@ -20,3 +23,9 @@ const TIME_SLOT = {
   '18:00 - 18:30',
   '18:30 - 19:00',
 };
+
+Future<DateTime> syncTime() async{
+  var now = DateTime.now();
+  var offset = await NTP.getNtpOffset(localTime: now);
+  return now.add(Duration(milliseconds: offset));
+}

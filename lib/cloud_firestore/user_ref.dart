@@ -46,7 +46,25 @@ Future<List<BookingModel>> getUserHistory() async {
       .doc(FirebaseAuth.instance.currentUser.phoneNumber)
       .collection('Booking_${FirebaseAuth.instance.currentUser.uid}');
 
-  var snapshot = await userRef.orderBy('timeStamp').get();
+  var snapshot = await userRef.orderBy('timeStamp', descending: true).get();
+  snapshot.docs.forEach((element) {
+    var booking = BookingModel.fromJson(element.data());
+    booking.docId = element.id;
+    booking.reference = element.reference;
+    listBooking.add(booking);
+  });
+  return listBooking;
+}
+
+
+Future<List<BookingModel>> getBarberHistory() async {
+  var listBooking = new List<BookingModel>.empty(growable: true);
+  var userRef = FirebaseFirestore.instance
+      .collection('Barber')
+      .doc('LorenzoStaff')
+      .collection('BookingStaff');
+
+  var snapshot = await userRef.orderBy('timeStamp', descending: true).get();
   snapshot.docs.forEach((element) {
     var booking = BookingModel.fromJson(element.data());
     booking.docId = element.id;

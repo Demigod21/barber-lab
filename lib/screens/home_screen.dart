@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/model/user_model.dart';
 import 'package:custom_barber_shop/screens/realhome_screen.dart';
+import 'package:custom_barber_shop/screens/staff_history_screen.dart';
 import 'package:custom_barber_shop/screens/user_history_screen.dart';
 import 'package:custom_barber_shop/screens/user_screen.dart';
 import 'package:custom_barber_shop/state/state_management.dart';
@@ -68,7 +69,7 @@ class HomePage extends State<Home> {
       case 0:
         return RealHome();
       case 1:
-        return UserHistory();
+        return StaffHistory();
       case 2:
         return Booking();
       default:

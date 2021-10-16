@@ -35,6 +35,7 @@ class BookingPage extends State<Booking>{
   var selectedTimeSlot = -1;
   var note = '';
   var noteController = TextEditingController();
+  int indexRadio = -1;
 
 
   @override
@@ -48,15 +49,15 @@ class BookingPage extends State<Booking>{
           direction: Axis.horizontal,
           enableNextPreviousButtons: false,
           enableStepTapping: false,
-          numbers: [1,2],
+          numbers: [1,2,3],
           stepColor: Colors.black,
           activeStepColor: Colors.grey,
           numberStyle: TextStyle(color: Colors.white),
         ),
         Expanded(
           flex: 10,
-          child: step == 1? displayTimeSlots()  :
-                  step == 2? displayConfirm() : Container(),
+          child: step == 1? displayServices() : step == 2? displayTimeSlots()  :
+                  step == 3? displayConfirm() : Container(),
         ),
         Expanded(child: Align(
           alignment: Alignment.bottomCenter,
@@ -76,7 +77,7 @@ class BookingPage extends State<Booking>{
                 ),
                 Expanded(
                   child : ElevatedButton(
-                      onPressed: step == 2 ? null : ()=> setState(() => this.step++),
+                      onPressed: step == 3 ? null : ()=> setState(() => this.step++),
                       child: Text('Avanti')
                   ),
                 ),
@@ -88,6 +89,42 @@ class BookingPage extends State<Booking>{
       ),
     ));
     throw UnimplementedError();
+  }
+
+  displayServices(){
+    return Center(
+      child: IntrinsicWidth(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            customRadio("BARBA", 0),
+            customRadio("CAPELLI", 1),
+            customRadio("BARBA E CAPELLI", 2),
+          ],
+        )
+      )
+    );
+  }
+
+  changeIndexRadio(int indexRadio){
+    setState(() {
+      this.indexRadio = indexRadio;
+    });
+  }
+
+  customRadio(String txt, int index){
+    return OutlinedButton(
+        onPressed: () => changeIndexRadio(index),
+        style: OutlinedButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+          side: BorderSide(
+              width: 1,
+              color: this.indexRadio == index? Colors.cyan : Colors.grey
+          ),
+        ),
+        child: Text(txt, style: GoogleFonts.robotoMono(color: this.indexRadio == index? Colors.cyan : Colors.grey))
+    );
   }
 
   displayTimeSlots() {

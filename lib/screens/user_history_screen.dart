@@ -135,7 +135,8 @@ class UserHistoryPage extends State<UserHistory> {
                                   onTap: isExpired
                                       ? null
                                       : () {
-                                          cancelBooking(context, userBookings[index]);
+                                          cancelBooking(
+                                              context, userBookings[index]);
                                         },
                                   child: Container(
                                       decoration: BoxDecoration(
@@ -191,7 +192,6 @@ class UserHistoryPage extends State<UserHistory> {
               onPressed: () {
                 deleteFromDatabase(bookingModel);
               }),
-
         ]).show();
   }
 
@@ -200,24 +200,61 @@ class UserHistoryPage extends State<UserHistory> {
 
     var batch = FirebaseFirestore.instance.batch();
 
-    var barberBookingSlot = databaseReference.collection('Barber').doc('LorenzoStaff').collection('${DateFormat('dd_MM_yyyy').format(DateTime.fromMillisecondsSinceEpoch(bookingModel.timeStamp))}')
+    var barberBookingSlot = databaseReference
+        .collection('Barber')
+        .doc('LorenzoStaff')
+        .collection(
+            '${DateFormat('dd_MM_yyyy').format(DateTime.fromMillisecondsSinceEpoch(bookingModel.timeStamp))}')
         .doc(bookingModel.slot.toString());
 
-    var barberBooking = databaseReference.collection('Barber').doc('LorenzoStaff').collection('BookingStaff')
+    var barberBooking = databaseReference
+        .collection('Barber')
+        .doc('LorenzoStaff')
+        .collection('BookingStaff')
         .doc(bookingModel.docId.toString());
 
     var userBooking = bookingModel.reference;
+
+    var tipoServizio = bookingModel.tipoServizio;
+    var uuidAlternativo = bookingModel.uuidLinkedHourBooking;
+    var slotAlternativo = bookingModel.slotLinkedHourBooking;
+    if (tipoServizio == 'BARBA E CAPELLI') {
+      var barberBookingSuccessivo = databaseReference
+          .collection('Barber')
+          .doc('LorenzoStaff')
+          .collection('BookingStaff')
+          .doc(uuidAlternativo.toString());
+
+      var userBookingSuccessivo = databaseReference
+          .collection('User')
+          .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+          .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
+          .doc(uuidAlternativo);
+
+
+      var barberBookingSlotSuccessivo = databaseReference
+          .collection('Barber')
+          .doc('LorenzoStaff')
+          .collection(
+              '${DateFormat('dd_MM_yyyy').format(DateTime.fromMillisecondsSinceEpoch(bookingModel.timeStamp))}')
+          .doc(slotAlternativo.toString());
+
+      batch.delete(barberBookingSuccessivo);
+      batch.delete(userBookingSuccessivo);
+      batch.delete(barberBookingSlotSuccessivo);
+
+    }
 
     batch.delete(userBooking);
     batch.delete(barberBooking);
     batch.delete(barberBookingSlot);
 
-    batch.commit().then((value){
+    batch.commit().then((value) {
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-      ScaffoldMessenger.of(scaffoldKey.currentContext).showSnackBar(SnackBar(
-          content: Text ('Prenotazione Cancellata!')
-      ));
-      context.read(deleteFlagRefresh).state = !context.read(deleteFlagRefresh).state;
+      ScaffoldMessenger.of(scaffoldKey.currentContext)
+          .showSnackBar(SnackBar(content: Text('Prenotazione Cancellata!')));
+      context.read(deleteFlagRefresh).state =
+          !context.read(deleteFlagRefresh).state;
     });
   }
 }

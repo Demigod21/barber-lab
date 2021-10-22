@@ -69,7 +69,7 @@ class HomePage extends State<Home> {
       case 0:
         return RealHome();
       case 1:
-        return StaffHistory();
+        return UserHistory();
       case 2:
         return Booking();
       default:

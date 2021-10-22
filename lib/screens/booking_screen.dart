@@ -264,7 +264,8 @@ class BookingPage extends State<Booking> {
                               color: listTimeSlot.contains(index)
                                   ? Colors.white10
                                   : this.selectedTime ==
-                                          TIME_SLOT.elementAt(index)
+                                          TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
+                                  TIME_SLOT.elementAt(index)
                                       ? Colors.white
                                       : Colors.grey,
                               child: GridTile(
@@ -477,7 +478,6 @@ class BookingPage extends State<Booking> {
                           ),
                           TextField(
                             decoration: new InputDecoration(
-                              border: InputBorder.none,
                               hintText:
                                   'Inserisci delle note sul tuo appuntamneto',
                             ),

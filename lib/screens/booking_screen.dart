@@ -360,7 +360,6 @@ class BookingPage extends State<Booking> {
 
     final databaseReference = FirebaseFirestore.instance;
 
-    var batch = FirebaseFirestore.instance.batch();
 
     DocumentReference barberBookingTimeSlot = databaseReference
         .collection('Barber')
@@ -380,15 +379,35 @@ class BookingPage extends State<Booking> {
         .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
         .doc(stringUuid);
 
+    if (isCombo) {
+      var batchSuccessivo = FirebaseFirestore.instance.batch();
+      DocumentReference barberBookingTimeSlotSuccessivo = databaseReference
+          .collection('Barber')
+          .doc('LorenzoStaff')
+          .collection('${DateFormat('dd_MM_yyyy').format(selectedDate)}')
+          .doc(selectedTimeSlotCombo.toString());
+
+      DocumentReference barberBookingSuccessivo = databaseReference
+          .collection('Barber')
+          .doc('LorenzoStaff')
+          .collection('BookingStaff')
+          .doc(uuidSuccessivo);
+
+      DocumentReference userBookingSuccessivo = FirebaseFirestore.instance
+          .collection('User')
+          .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+          .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
+          .doc(uuidSuccessivo);
+      batchSuccessivo.set(barberBookingTimeSlotSuccessivo, bookingModelSuccessivo.toJson());
+      batchSuccessivo.set(barberBookingSuccessivo, bookingModelSuccessivo.toJson());
+      batchSuccessivo.set(userBookingSuccessivo, bookingModelSuccessivo.toJson());
+      batchSuccessivo.commit();
+    }
+
+    var batch = FirebaseFirestore.instance.batch();
     batch.set(barberBookingTimeSlot, bookingModel.toJson());
     batch.set(barberBooking, bookingModel.toJson());
     batch.set(userBooking, bookingModel.toJson());
-
-    if (isCombo) {
-      batch.set(barberBookingTimeSlot, bookingModelSuccessivo.toJson());
-      batch.set(barberBooking, bookingModelSuccessivo.toJson());
-      batch.set(userBooking, bookingModelSuccessivo.toJson());
-    }
 
     batch.commit().then((value) {
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);

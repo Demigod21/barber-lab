@@ -19,6 +19,8 @@ import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:intl/date_symbol_data_local.dart';
+
 import 'home_screen.dart';
 
 class Booking extends StatefulWidget {
@@ -44,6 +46,7 @@ class BookingPage extends State<Booking> {
 
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('it', null);
     return SafeArea(
         child: Scaffold(
       key: scaffoldKey,
@@ -143,18 +146,18 @@ class BookingPage extends State<Booking> {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           side: BorderSide(
               width: 1,
-              color: this.indexRadio == index ? Colors.cyan : Colors.grey),
+              color: this.indexRadio == index ? Colors.blueAccent : Colors.grey),
         ),
         child: Text(txt,
             style: GoogleFonts.robotoMono(
-                color: this.indexRadio == index ? Colors.cyan : Colors.grey)));
+                color: this.indexRadio == index ? Colors.blueAccent : Colors.grey)));
   }
 
   displayTimeSlots() {
     return Column(
       children: [
         Container(
-            color: Color(0xFF008577),
+            color: Colors.blueAccent,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -165,7 +168,7 @@ class BookingPage extends State<Booking> {
                             child: Column(
                               children: [
                                 Text(
-                                  '${DateFormat.MMMM().format(selectedDate)}',
+                                  '${DateFormat.MMMM('it').format(selectedDate)}'.toUpperCase(),
                                   style: GoogleFonts.robotoMono(
                                     color: Colors.white54,
                                   ),
@@ -178,10 +181,11 @@ class BookingPage extends State<Booking> {
                                       fontSize: 22),
                                 ),
                                 Text(
-                                  '${DateFormat.EEEE().format(selectedDate)}',
+                                  '${DateFormat.EEEE('it').format(selectedDate)}',
                                   style: GoogleFonts.robotoMono(
                                     color: Colors.white54,
                                   ),
+
                                 ),
                               ],
                             )))),
@@ -218,7 +222,9 @@ class BookingPage extends State<Booking> {
                 return GridView.builder(
                     itemCount: TIME_SLOT.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3),
+                        crossAxisCount: 3,
+                    crossAxisSpacing: 3,
+                    childAspectRatio: 1.6),
                     itemBuilder: (context, index) => GestureDetector(
                           onTap: listTimeSlot.contains(index)
                               ? null
@@ -261,13 +267,33 @@ class BookingPage extends State<Booking> {
                                   }
                                 },
                           child: Card(
+                            elevation: 3,
+                              shadowColor : listTimeSlot.contains(index)
+                                  ? Colors.black
+                                  : this.selectedTime ==
+                                  TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
+                                  TIME_SLOT.elementAt(index)
+                                  ? Colors.blueAccent
+                                  : Colors.grey,
+                              shape : RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              side: BorderSide(
+                                  color: listTimeSlot.contains(index)
+                                      ? Colors.grey
+                                      : this.selectedTime ==
+                                      TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
+                                      TIME_SLOT.elementAt(index)
+                                      ? Colors.blueAccent
+                                      : Colors.grey,
+                                  width: 1
+                              ),),
                               color: listTimeSlot.contains(index)
-                                  ? Colors.white10
+                                  ? Colors.grey
                                   : this.selectedTime ==
                                           TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
                                   TIME_SLOT.elementAt(index)
                                       ? Colors.white
-                                      : Colors.grey,
+                                      : Colors.white,
                               child: GridTile(
                                   child: Center(
                                       child: Column(
@@ -276,10 +302,22 @@ class BookingPage extends State<Booking> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                    Text('${TIME_SLOT.elementAt(index)}'),
+                                    Text('${TIME_SLOT.elementAt(index)}', style: GoogleFonts.robotoMono(color: listTimeSlot.contains(index)
+                                        ? Colors.white
+                                        : this.selectedTime ==
+                                        TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
+                                        TIME_SLOT.elementAt(index)
+                                        ? Colors.blueAccent
+                                        : Colors.grey)),
                                     Text(listTimeSlot.contains(index)
-                                        ? 'Non disponibile'
-                                        : 'Disponibile')
+                                        ? 'Occupato'
+                                        : 'Libero', style: GoogleFonts.robotoMono(color: listTimeSlot.contains(index)
+                                        ? Colors.white
+                                        : this.selectedTime ==
+                                        TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
+                                        TIME_SLOT.elementAt(index)
+                                        ? Colors.blueAccent
+                                        : Colors.grey))
                                   ])))),
                         ));
               }

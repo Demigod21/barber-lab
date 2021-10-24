@@ -108,16 +108,22 @@ class BookingPage extends State<Booking> {
 
   displayServices() {
     return Center(
-        child: IntrinsicWidth(
-            child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        customRadio("BARBA", 0),
-        customRadio("CAPELLI", 1),
-        customRadio("BARBA E CAPELLI", 2),
-      ],
-    )));
+            child: Padding(
+                padding: const EdgeInsets.all(40),
+                child:
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    customRadio("BARBA", 0, "", "30"),
+                    SizedBox(height: 20),
+
+                    customRadio("CAPELLI", 1, "", "30"),
+                    SizedBox(height: 20),
+
+                    customRadio("BARBA E CAPELLI", 2, "", "60"),
+                  ],
+                )));
   }
 
   changeIndexRadio(int indexRadio, String txt) {
@@ -138,19 +144,72 @@ class BookingPage extends State<Booking> {
     });
   }
 
-  customRadio(String txt, int index) {
+  customRadio(String txt, int index, String imagePath, String minutes) {
     return OutlinedButton(
         onPressed: () => changeIndexRadio(index, txt),
         style: OutlinedButton.styleFrom(
+          primary: Colors.white,
+          onSurface : Colors.white,
+          backgroundColor: Colors.white,
+          shadowColor: this.indexRadio == index ? Colors.blueAccent : Colors.grey,
+          elevation: 3,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           side: BorderSide(
               width: 1,
-              color: this.indexRadio == index ? Colors.blueAccent : Colors.grey),
+              color:
+                  this.indexRadio == index ? Colors.blueAccent : Colors.grey),
         ),
-        child: Text(txt,
-            style: GoogleFonts.robotoMono(
-                color: this.indexRadio == index ? Colors.blueAccent : Colors.grey)));
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+                child : Column(children: [
+                  Icon(Icons.accessible_forward_sharp,
+                      color: this.indexRadio == index
+                          ? Colors.blueAccent
+                          : Colors.grey),
+                ]),
+              ),
+
+              Expanded(
+                child: Column(children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(txt,
+                            style: GoogleFonts.robotoMono(
+                                fontSize: 18,
+                                color: this.indexRadio == index
+                                    ? Colors.blueAccent
+                                    : Colors.grey)),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.access_time,
+                          color: this.indexRadio == index
+                              ? Colors.blueAccent
+                              : Colors.grey),
+                      Expanded(
+                        child: Text(" "+minutes + " minuti",
+                            style: GoogleFonts.robotoMono(
+                                fontSize: 14,
+
+                                color: this.indexRadio == index
+                                    ? Colors.blueAccent
+                                    : Colors.grey)),
+                      )
+                    ],
+                  )
+                ]),
+              )
+            ],
+          ),
+        ));
   }
 
   displayTimeSlots() {
@@ -168,7 +227,8 @@ class BookingPage extends State<Booking> {
                             child: Column(
                               children: [
                                 Text(
-                                  '${DateFormat.MMMM('it').format(selectedDate)}'.toUpperCase(),
+                                  '${DateFormat.MMMM('it').format(selectedDate)}'
+                                      .toUpperCase(),
                                   style: GoogleFonts.robotoMono(
                                     color: Colors.white54,
                                   ),
@@ -185,7 +245,6 @@ class BookingPage extends State<Booking> {
                                   style: GoogleFonts.robotoMono(
                                     color: Colors.white54,
                                   ),
-
                                 ),
                               ],
                             )))),
@@ -194,6 +253,7 @@ class BookingPage extends State<Booking> {
                       DatePicker.showDatePicker(context,
                           showTitleActions: true,
                           minTime: now,
+                          locale: 'it',
                           maxTime: now.add(Duration(days: 31)),
                           onConfirm: (date) =>
                               setState(() => this.selectedDate = date));
@@ -223,8 +283,8 @@ class BookingPage extends State<Booking> {
                     itemCount: TIME_SLOT.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
-                    crossAxisSpacing: 3,
-                    childAspectRatio: 1.6),
+                        crossAxisSpacing: 3,
+                        childAspectRatio: 1.6),
                     itemBuilder: (context, index) => GestureDetector(
                           onTap: listTimeSlot.contains(index)
                               ? null
@@ -240,7 +300,7 @@ class BookingPage extends State<Booking> {
                                         type: AlertType.warning,
                                         title: 'ATTENZIONE',
                                         desc:
-                                        'Non e stato possibile selezionare lo slot attuale poiche si e scelto un tipo di servizio che richiede almeno 2 slot (1h) si prega di selezionarne un altro',
+                                            'Non e stato possibile selezionare lo slot attuale poiche si e scelto un tipo di servizio che richiede almeno 2 slot (1h) si prega di selezionarne un altro',
                                         buttons: [
                                           DialogButton(
                                               child: Text('ANNULLA'),
@@ -267,31 +327,35 @@ class BookingPage extends State<Booking> {
                                   }
                                 },
                           child: Card(
-                            elevation: 3,
-                              shadowColor : listTimeSlot.contains(index)
+                              elevation: 3,
+                              shadowColor: listTimeSlot.contains(index)
                                   ? Colors.black
                                   : this.selectedTime ==
-                                  TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
-                                  TIME_SLOT.elementAt(index)
-                                  ? Colors.blueAccent
-                                  : Colors.grey,
-                              shape : RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              side: BorderSide(
-                                  color: listTimeSlot.contains(index)
-                                      ? Colors.grey
-                                      : this.selectedTime ==
-                                      TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
-                                      TIME_SLOT.elementAt(index)
+                                              TIME_SLOT.elementAt(index) ||
+                                          this.selectedTimeCombo ==
+                                              TIME_SLOT.elementAt(index)
                                       ? Colors.blueAccent
                                       : Colors.grey,
-                                  width: 1
-                              ),),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                side: BorderSide(
+                                    color: listTimeSlot.contains(index)
+                                        ? Colors.grey
+                                        : this.selectedTime ==
+                                                    TIME_SLOT
+                                                        .elementAt(index) ||
+                                                this.selectedTimeCombo ==
+                                                    TIME_SLOT.elementAt(index)
+                                            ? Colors.blueAccent
+                                            : Colors.grey,
+                                    width: 1),
+                              ),
                               color: listTimeSlot.contains(index)
                                   ? Colors.grey
                                   : this.selectedTime ==
-                                          TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
-                                  TIME_SLOT.elementAt(index)
+                                              TIME_SLOT.elementAt(index) ||
+                                          this.selectedTimeCombo ==
+                                              TIME_SLOT.elementAt(index)
                                       ? Colors.white
                                       : Colors.white,
                               child: GridTile(
@@ -302,22 +366,33 @@ class BookingPage extends State<Booking> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                    Text('${TIME_SLOT.elementAt(index)}', style: GoogleFonts.robotoMono(color: listTimeSlot.contains(index)
-                                        ? Colors.white
-                                        : this.selectedTime ==
-                                        TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
-                                        TIME_SLOT.elementAt(index)
-                                        ? Colors.blueAccent
-                                        : Colors.grey)),
-                                    Text(listTimeSlot.contains(index)
-                                        ? 'Occupato'
-                                        : 'Libero', style: GoogleFonts.robotoMono(color: listTimeSlot.contains(index)
-                                        ? Colors.white
-                                        : this.selectedTime ==
-                                        TIME_SLOT.elementAt(index) || this.selectedTimeCombo ==
-                                        TIME_SLOT.elementAt(index)
-                                        ? Colors.blueAccent
-                                        : Colors.grey))
+                                    Text('${TIME_SLOT.elementAt(index)}',
+                                        style: GoogleFonts.robotoMono(
+                                            color: listTimeSlot.contains(index)
+                                                ? Colors.white
+                                                : this.selectedTime ==
+                                                            TIME_SLOT.elementAt(
+                                                                index) ||
+                                                        this.selectedTimeCombo ==
+                                                            TIME_SLOT.elementAt(
+                                                                index)
+                                                    ? Colors.blueAccent
+                                                    : Colors.grey)),
+                                    Text(
+                                        listTimeSlot.contains(index)
+                                            ? 'Occupato'
+                                            : 'Libero',
+                                        style: GoogleFonts.robotoMono(
+                                            color: listTimeSlot.contains(index)
+                                                ? Colors.white
+                                                : this.selectedTime ==
+                                                            TIME_SLOT.elementAt(
+                                                                index) ||
+                                                        this.selectedTimeCombo ==
+                                                            TIME_SLOT.elementAt(
+                                                                index)
+                                                    ? Colors.blueAccent
+                                                    : Colors.grey))
                                   ])))),
                         ));
               }
@@ -399,7 +474,6 @@ class BookingPage extends State<Booking> {
 
     final databaseReference = FirebaseFirestore.instance;
 
-
     DocumentReference barberBookingTimeSlot = databaseReference
         .collection('Barber')
         .doc('LorenzoStaff')
@@ -437,9 +511,12 @@ class BookingPage extends State<Booking> {
           .doc(FirebaseAuth.instance.currentUser.phoneNumber)
           .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
           .doc(uuidSuccessivo);
-      batchSuccessivo.set(barberBookingTimeSlotSuccessivo, bookingModelSuccessivo.toJson());
-      batchSuccessivo.set(barberBookingSuccessivo, bookingModelSuccessivo.toJson());
-      batchSuccessivo.set(userBookingSuccessivo, bookingModelSuccessivo.toJson());
+      batchSuccessivo.set(
+          barberBookingTimeSlotSuccessivo, bookingModelSuccessivo.toJson());
+      batchSuccessivo.set(
+          barberBookingSuccessivo, bookingModelSuccessivo.toJson());
+      batchSuccessivo.set(
+          userBookingSuccessivo, bookingModelSuccessivo.toJson());
       batchSuccessivo.commit();
     }
 

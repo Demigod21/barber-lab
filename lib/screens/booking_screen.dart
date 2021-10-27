@@ -96,7 +96,7 @@ class BookingPage extends State<Booking> {
                                 onPressed: step == 3
                                     ? null
                                     : () => setState(() => this.step++),
-                                child: Text('Avanti')),
+                                child: step == 3? Text('Conferma') : Text('Avanti')),
                           ),
                         ],
                       ))))

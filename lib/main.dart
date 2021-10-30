@@ -198,14 +198,17 @@ class MyHomePage extends ConsumerWidget {
               var userModel = UserModel.fromJson(snapshot.data());
               context.read(userInformation).state = userModel;
             }
-            context.read(userInformation).state.isStaff? developer.log("SHIPSHA") : developer.log("ROPT");
-
             //if we got here, the user already exist, we just go home
             Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
           } else {
             //if not, we must create user
             var nameProfileController = TextEditingController();
             var addressProfileController = TextEditingController();
+            userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber)
+                .set({
+              'name': "",
+              'address': ""
+            });
             Alert(
                 context: context,
                 title: 'AGGIORNA PROFILO',
@@ -255,7 +258,6 @@ class MyHomePage extends ConsumerWidget {
                           var userModel = UserModel.fromJson(snapshot.data());
                           context.read(userInformation).state = userModel;
                         }
-                        context.read(userInformation).state.isStaff? developer.log("SHIPSHA") : developer.log("ROPT");
 
                         Navigator.pushNamedAndRemoveUntil(context, '/home', (
                             route) => false);

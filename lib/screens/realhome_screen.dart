@@ -85,33 +85,243 @@ class RealHomePage extends State<RealHome> {
 
   createWelcomeBanner(BuildContext context, String userName) {
     Size size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height * 0.20,
-      width: size.width,
-      decoration: BoxDecoration(
-        boxShadow: [BoxShadow(
-          color: kPrimaryColor,
-          blurRadius: 9,
-        ),],
-          color: kPrimaryColor,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(30),
-            bottomRight: Radius.circular(30),
-          )),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Ciao ${userName}!',
-            style: GoogleFonts.raleway(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+    return Column(
+      children: [
+        Container(
+          height: size.height * 0.20,
+          child: Stack(
+            children: [
+              Container(
+                  height: size.height * 0.20 - 17,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: kPrimaryColor,
+                          blurRadius: 9,
+                        ),
+                      ],
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(30),
+                        bottomRight: Radius.circular(30),
+                      )),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Ciao ${userName}!',
+                        style: GoogleFonts.raleway(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  )),
+              Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Benvenuto da BarberLab!',
+                          style: GoogleFonts.raleway(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: kPrimaryColor,
+                            blurRadius: 9,
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                  ))
+            ],
           ),
         ),
-      )
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          height: size.height * 0.40-10,
+          width: size.width * 0.90,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'I nostri orari : ',
+                    style: GoogleFonts.raleway(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Lunedì',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    'CHIUSO',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Martedì',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    '08:00 - 13:30 / 15:00 - 19:00',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Mercoledì',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    '08:00 - 13:30 / 15:00 - 19:00',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Giovedì',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    '08:00 - 13:30 / 15:00 - 19:00',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Venerdì',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    '08:00 - 13:30 / 15:00 - 19:00',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Sabato',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    '08:00 - 13:30 / 15:00 - 19:00',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Domenica',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    'CHIUSO',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: size.height * 0.40,
+          width: size.width * 0.9,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+
+            ],
+          ),
+        )
+      ],
     );
   }
 }

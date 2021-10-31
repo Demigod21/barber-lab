@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'home_screen.dart';
 
@@ -155,10 +156,10 @@ class RealHomePage extends State<RealHome> {
           ),
         ),
         SizedBox(
-          height: 10,
+          height: 20,
         ),
         Container(
-          height: size.height * 0.40-10,
+          height: size.height * 0.40 - 20,
           width: size.width * 0.90,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -311,17 +312,83 @@ class RealHomePage extends State<RealHome> {
             ],
           ),
         ),
+        SizedBox(
+          height: 30,
+        ),
         Container(
-          height: size.height * 0.40,
+          height: size.height * 0.30 - 30,
           width: size.width * 0.9,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Expanded(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Dove siamo',
+                    style: GoogleFonts.raleway(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Via fasulla, 123',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                  Text(
+                    'Pontedera 56025 (PI)',
+                    style: GoogleFonts.raleway(
+                      fontSize: 14,
+                      color: kPrimaryColor,
+                    ),
+                  ),
+                ],
+              )),
+              Expanded(
+                  child: GestureDetector(
+                onTap: () => {_launchMaps()},
+                child: Container(
+                  decoration: BoxDecoration(
 
+                      boxShadow: [
+                        BoxShadow(
+                          color: kPrimaryColor,
+                          blurRadius: 4,
+                        ),
+                      ],
+                      border: Border.all(
+                        color: kPrimaryColor,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/img_temp_maps.PNG'),
+                        fit: BoxFit.cover
+                      )),
+                ),
+              ))
             ],
           ),
         )
       ],
     );
+  }
+
+  Future<void> _launchMaps() async {
+    final url =
+        'https://www.google.com/maps/search/?api=1&query=centurylink+field';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

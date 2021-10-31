@@ -42,6 +42,8 @@ dependencies:
   flutter_datetime_picker: any
   ntp: any
   uuid: any
+  url_launcher: any
+  maps_launcher: any
 
 dev_dependencies:
   flutter_test:

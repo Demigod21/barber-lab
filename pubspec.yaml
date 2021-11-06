@@ -44,6 +44,7 @@ dependencies:
   uuid: any
   url_launcher: any
   maps_launcher: any
+  pinput: ^0.2.6
 
 dev_dependencies:
   flutter_test:

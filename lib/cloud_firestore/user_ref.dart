@@ -20,6 +20,18 @@ Future<UserModel> getUserProfiles(BuildContext context, String phone) async {
   }
 }
 
+Future<UserModel> getUserProfilesLogin(BuildContext context, String phone) async {
+  CollectionReference userRef = FirebaseFirestore.instance.collection('User');
+  DocumentSnapshot snapshot = await userRef.doc(phone).get();
+  if (snapshot.exists) {
+    var userModel = UserModel.fromJson(snapshot.data());
+    context.read(userInformation).state = userModel;
+    return userModel;
+  } else {
+    return UserModel(); //return empty user
+  }
+}
+
 Future<List<int>> getTimeSlotLorenzo(String date) async {
   final databaseReference = FirebaseFirestore.instance;
 

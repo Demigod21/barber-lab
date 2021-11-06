@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/constants/constants.dart';
 import 'package:custom_barber_shop/model/user_model.dart';
@@ -35,6 +36,23 @@ class RealHomePage extends State<RealHome> {
                     );
                   } else {
                     var userModel = snapshot.data as UserModel;
+                    if(userModel.name == null || userModel.name == 'Dio'){
+                      return AlertDialog(
+                        actions: [
+                          TextButton(onPressed:() async {
+                            CollectionReference userRef = FirebaseFirestore.instance.collection('User');
+                            DocumentSnapshot snapshot = await userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber).get();
+                            userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber)
+                                .set({
+                              'name': "Dio2",
+                              'address': ""
+                            });
+                            Navigator.pushNamedAndRemoveUntil(context, '/home', (
+                                route) => false);
+                          }, child: Text('Test'))
+                        ],
+                      );
+                    }
                     return createWelcomeBanner(context, userModel.name);
                     // return Container(
                     //   decoration: BoxDecoration(
@@ -159,7 +177,7 @@ class RealHomePage extends State<RealHome> {
           height: 20,
         ),
         Container(
-          height: size.height * 0.40 - 20,
+          height: size.height * 0.35 - 20,
           width: size.width * 0.90,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

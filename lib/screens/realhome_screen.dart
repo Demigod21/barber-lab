@@ -36,49 +36,12 @@ class RealHomePage extends State<RealHome> {
                     );
                   } else {
                     var userModel = snapshot.data as UserModel;
-                    var nameProfileController = TextEditingController();
 
-                    if (userModel.name == null || userModel.name == 'Dio') {
-                      return AlertDialog(
-                        title: Text('Aggiorna le tue informazioni personali!'),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        content: Container(
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextField(
-                                    decoration: InputDecoration(
-                                        icon: Icon(Icons.account_circle),
-                                        hintText: 'Inserisci il tuo nome',
-                                    ),
-                                    controller: nameProfileController),
-                              ],
-                            ),
-                          ),
-                        ),
-                        actions: [
-                          TextButton(
-                              onPressed: () async {
-                                CollectionReference userRef = FirebaseFirestore
-                                    .instance
-                                    .collection('User');
-                                DocumentSnapshot snapshot = await userRef
-                                    .doc(FirebaseAuth
-                                        .instance.currentUser.phoneNumber)
-                                    .get();
-                                userRef
-                                    .doc(FirebaseAuth
-                                        .instance.currentUser.phoneNumber)
-                                    .set({'name': nameProfileController.text, 'address': ""});
-                                Navigator.pushNamedAndRemoveUntil(
-                                    context, '/home', (route) => false);
-                              },
-                              child: Text('Salva'))
-                        ],
-                      );
+                    if (userModel.name == null || userModel.name == '') {
+                      Future.delayed(Duration.zero, () => showAlert(context));
+                      //
+                      // Navigator.pushNamedAndRemoveUntil(
+                      //     context, '/home', (route) => false);
                     }
                     return createWelcomeBanner(context, userModel.name);
                     // return Container(
@@ -459,5 +422,53 @@ class RealHomePage extends State<RealHome> {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  void showAlert(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          var nameProfileController = TextEditingController();
+
+          return AlertDialog(
+            title: Text('Aggiorna le tue informazioni personali!'),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: Container(
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    TextField(
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.account_circle),
+                          hintText: 'Inserisci il tuo nome',
+                        ),
+                        controller: nameProfileController),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () async {
+                    CollectionReference userRef =
+                        FirebaseFirestore.instance.collection('User');
+                    DocumentSnapshot snapshot = await userRef
+                        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+                        .get();
+                    userRef
+                        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+                        .set({
+                      'name': nameProfileController.text,
+                      'address': ""
+                    });
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (route) => false);
+                  },
+                  child: Text('Salva'))
+            ],
+          );
+        });
   }
 }

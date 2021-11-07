@@ -28,7 +28,7 @@ class _OTPScreenState extends State<OTPScreen> {
     return Scaffold(
       key: _scaffoldkey,
       appBar: AppBar(
-        title: Text('OTP Verification'),
+        title: Text('Verifica tramite OTP'),
       ),
       body: Column(
         children: [
@@ -36,7 +36,7 @@ class _OTPScreenState extends State<OTPScreen> {
             margin: EdgeInsets.only(top: 40),
             child: Center(
               child: Text(
-                'Verify +39-${widget.phone}',
+                'Verifica +39-${widget.phone}',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
               ),
             ),
@@ -70,7 +70,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 } catch (e) {
                   FocusScope.of(context).unfocus();
                   _scaffoldkey.currentState
-                      .showSnackBar(SnackBar(content: Text('invalid OTP')));
+                      .showSnackBar(SnackBar(content: Text('Codice OTP non valido!')));
                 }
               },
             ),

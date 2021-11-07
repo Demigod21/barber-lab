@@ -15,7 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Phone Auth'),
+        title: Text('Autentificazione via cellulare'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
               margin: EdgeInsets.only(top: 60),
               child: Center(
                 child: Text(
-                  'Phone Authentication',
+                  'Autentificazione via cellulare',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                 ),
               ),
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               margin: EdgeInsets.only(top: 40, right: 10, left: 10),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Phone Number',
+                  hintText: 'Numero di telefono ',
                   prefix: Padding(
                     padding: EdgeInsets.all(4),
                     child: Text('+39'),
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     builder: (context) => OTPScreen(_controller.text)));
               },
               child: Text(
-                'Next',
+                'Avanti',
                 style: TextStyle(color: Colors.white),
               ),
             ),

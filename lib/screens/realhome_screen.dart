@@ -36,20 +36,47 @@ class RealHomePage extends State<RealHome> {
                     );
                   } else {
                     var userModel = snapshot.data as UserModel;
-                    if(userModel.name == null || userModel.name == 'Dio'){
+                    var nameProfileController = TextEditingController();
+
+                    if (userModel.name == null || userModel.name == 'Dio') {
                       return AlertDialog(
+                        title: Text('Aggiorna le tue informazioni personali!'),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        content: Container(
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextField(
+                                    decoration: InputDecoration(
+                                        icon: Icon(Icons.account_circle),
+                                        hintText: 'Inserisci il tuo nome',
+                                    ),
+                                    controller: nameProfileController),
+                              ],
+                            ),
+                          ),
+                        ),
                         actions: [
-                          TextButton(onPressed:() async {
-                            CollectionReference userRef = FirebaseFirestore.instance.collection('User');
-                            DocumentSnapshot snapshot = await userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber).get();
-                            userRef.doc(FirebaseAuth.instance.currentUser.phoneNumber)
-                                .set({
-                              'name': "Dio2",
-                              'address': ""
-                            });
-                            Navigator.pushNamedAndRemoveUntil(context, '/home', (
-                                route) => false);
-                          }, child: Text('Test'))
+                          TextButton(
+                              onPressed: () async {
+                                CollectionReference userRef = FirebaseFirestore
+                                    .instance
+                                    .collection('User');
+                                DocumentSnapshot snapshot = await userRef
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser.phoneNumber)
+                                    .get();
+                                userRef
+                                    .doc(FirebaseAuth
+                                        .instance.currentUser.phoneNumber)
+                                    .set({'name': nameProfileController.text, 'address': ""});
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, '/home', (route) => false);
+                              },
+                              child: Text('Salva'))
                         ],
                       );
                     }
@@ -199,10 +226,10 @@ class RealHomePage extends State<RealHome> {
                           left: 0,
                           right: 0,
                           child: Container(
-                            margin: EdgeInsets.only(right: kDefaultPadding/2),
-                            height: 7,
-                            color: kPrimaryColor.withOpacity(0.2)
-                          ))
+                              margin:
+                                  EdgeInsets.only(right: kDefaultPadding / 2),
+                              height: 7,
+                              color: kPrimaryColor.withOpacity(0.2)))
                     ],
                   )
                 ],
@@ -371,10 +398,10 @@ class RealHomePage extends State<RealHome> {
                           left: 0,
                           right: 0,
                           child: Container(
-                              margin: EdgeInsets.only(right: kDefaultPadding/2),
+                              margin:
+                                  EdgeInsets.only(right: kDefaultPadding / 2),
                               height: 7,
-                              color: kPrimaryColor.withOpacity(0.2)
-                          ))
+                              color: kPrimaryColor.withOpacity(0.2)))
                     ],
                   ),
                   SizedBox(

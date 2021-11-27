@@ -83,9 +83,9 @@ class BookingPage extends State<Booking> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: step == 1
+                                onPressed: isPrevSelecatble(step)
                                     ? null
-                                    : () => setState(() => this.step--),
+                                    : () => actionPrev(step),
                                 child: Text('Indietro')),
                           ),
                           SizedBox(
@@ -93,7 +93,7 @@ class BookingPage extends State<Booking> {
                           ),
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: step == 3
+                                onPressed: isNextSelecatble(step)
                                     ? null
                                     : () => setState(() => this.step++),
                                 child: step == 3? Text('Conferma') : Text('Avanti')),
@@ -291,9 +291,9 @@ class BookingPage extends State<Booking> {
                                   if (listTimeSlot.contains(index)) {
                                     return;
                                   }
-                                  var indexDopo = index + 1;
+                                  var indexDopo = index + 1; //TODO CONTROLLARE ULTIMO SLOT
                                   if (isCombo &&
-                                      listTimeSlot.contains(indexDopo)) {
+                                      (listTimeSlot.contains(indexDopo) || index == 99) ) {
                                     Alert(
                                         context: context,
                                         type: AlertType.warning,
@@ -552,6 +552,39 @@ class BookingPage extends State<Booking> {
       //todo implementare
     }
     return output;
+  }
+
+  bool isNextSelecatble(int stepParam){
+    if (stepParam == 3){
+      return false;
+    }
+    if(stepParam == 1 && this.tipoServizio == ''){
+      return false;
+    }
+    if(stepParam == 2 && this.selectedTime == ''){
+      return false;
+    }
+    return true;
+  }
+
+  bool isPrevSelecatble(int stepParam){
+    if(stepParam == 1)
+      return false;
+  }
+
+  void actionPrev(int stepParam){
+    if(stepParam == 2){
+      setState(() {
+        this.selectedTimeSlot = -1;
+        this.selectedDate = DateTime.now();
+        this.selectedTime = '';
+        this.selectedTimeSlotCombo = -1;
+        this.selectedTimeCombo = '';
+      });
+    }
+    setState(() {
+      this.step--;
+    });
   }
 
   displayConfirm() {

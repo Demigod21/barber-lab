@@ -17,7 +17,6 @@ import 'booking_screen.dart';
 
 import 'dart:developer' as developer;
 
-
 class Home extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => HomePage();
@@ -32,7 +31,7 @@ class HomePage extends State<Home> {
         child: Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFDFDFDF),
-      body: buildBody(),
+      body: builldBody2(),
       bottomNavigationBar: buildBottomNavigationBar(),
     ));
   }
@@ -62,10 +61,37 @@ class HomePage extends State<Home> {
     );
   }
 
- buildBody() {
+  builldBody2() {
+    return FutureBuilder(
+        future: getUserProfiles(
+            context, FirebaseAuth.instance.currentUser.phoneNumber),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            var userModel = snapshot.data as UserModel;
+            bool isStaff = userModel.isStaff;
+            switch (index) {
+              case 0:
+                return RealHome();
+              case 1:
+                if(isStaff){
+                  return StaffHistory();
+                }
+                return UserHistory();
+              case 2:
+                return Booking();
+              default:
+                return RealHome();
+            }
+          }
+        });
+  }
 
-
-    switch(index){
+  buildBody() {
+    switch (index) {
       case 0:
         return RealHome();
       case 1:

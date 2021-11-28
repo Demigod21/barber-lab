@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:im_stepper/stepper.dart';
@@ -43,6 +44,20 @@ class BookingPage extends State<Booking> {
   var noteController = TextEditingController();
   int indexRadio = -1;
   bool isCombo = false;
+
+  FlutterLocalNotificationsPlugin fltrNotification;
+
+  @override
+  void initState() {
+    super.initState();
+    var androidInitilize = new AndroidInitializationSettings('nero');
+    var iOSinitilize = new IOSInitializationSettings();
+    var initilizationsSettings =
+    new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+    fltrNotification = new FlutterLocalNotificationsPlugin();
+    fltrNotification.initialize(initilizationsSettings,
+        onSelectNotification: null);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +98,7 @@ class BookingPage extends State<Booking> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: isPrevSelecatble(step)
+                                onPressed: !isPrevSelecatble(step)
                                     ? null
                                     : () => actionPrev(step),
                                 child: Text('Indietro')),
@@ -93,7 +108,7 @@ class BookingPage extends State<Booking> {
                           ),
                           Expanded(
                             child: ElevatedButton(
-                                onPressed: isNextSelecatble(step)
+                                onPressed: !isNextSelecatble(step)
                                     ? null
                                     : () => setState(() => this.step++),
                                 child: step == 3? Text('Conferma') : Text('Avanti')),
@@ -378,7 +393,7 @@ class BookingPage extends State<Booking> {
                                                     ? Colors.blueAccent
                                                     : Colors.grey)),
                                     Text(
-                                        listTimeSlot.contains(index)
+                                        !isAvailable(listTimeSlot, index)
                                             ? 'Occupato'
                                             : 'Libero',
                                         style: GoogleFonts.robotoMono(
@@ -540,6 +555,7 @@ class BookingPage extends State<Booking> {
         this.indexRadio = -1;
       });
 
+      _showNotification();
       setState(() {});
     });
   }
@@ -548,8 +564,16 @@ class BookingPage extends State<Booking> {
     bool output = false;
     output = listTimeSlot.contains(index) ? false : true;
     output = selectedDate.weekday == DateTime.monday ? false : output;
+    output = selectedDate.weekday == DateTime.sunday ? false : output;
+
     if (selectedDate.day == DateTime.now().weekday) {
-      //todo implementare
+      if(selectedDate.hour < DateTime.now().hour){
+        output = false;
+      }else if (selectedDate.hour == DateTime.now().hour){
+        if(selectedDate.minute <= DateTime.now().minute){
+          output = false;
+        }
+      }
     }
     return output;
   }
@@ -570,6 +594,7 @@ class BookingPage extends State<Booking> {
   bool isPrevSelecatble(int stepParam){
     if(stepParam == 1)
       return false;
+    return true;
   }
 
   void actionPrev(int stepParam){
@@ -639,5 +664,31 @@ class BookingPage extends State<Booking> {
                         ])))))
       ],
     );
+  }
+
+  // Future _showNotification() async {
+  //   var androidDetails = new AndroidNotificationDetails(
+  //       "Reminder appuntamento!", "Domani hai un appuntamento da Barber Lab :)",
+  //       importance: Importance.max);
+  //   var iSODetails = new IOSNotificationDetails();
+  //   var generalNotificationDetails =
+  //   new NotificationDetails(android: androidDetails, iOS: iSODetails);
+  //
+  //   var scheduledTime = DateTime.now().add(Duration(seconds : 20));
+  //   fltrNotification.schedule(1, "Appuntamento", "Domani", scheduledTime, generalNotificationDetails);
+  //   await fltrNotification.show(
+  //       0, "Task", "You created a Task",
+  //       generalNotificationDetails, payload: "Task");
+  // }
+
+  _showNotification() async {
+    var android = new AndroidNotificationDetails(
+        'id', 'channel ',
+        priority: Priority.high, importance: Importance.max);
+    var iOS = new IOSNotificationDetails();
+    var platform = new NotificationDetails(android: android, iOS: iOS);
+    await fltrNotification.show(
+        0, 'Flutter devs', 'Flutter Local Notification Demo', platform,
+        payload: 'Welcome to the Local Notification demo ');
   }
 }

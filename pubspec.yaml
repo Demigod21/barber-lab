@@ -29,12 +29,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: any
   google_fonts: any
-  firebase_auth: any
+  firebase_auth: ^3.0.0
   firebase_auth_ui: any
   firebase_core: any
   hooks_riverpod: any
   page_transition: any
-  cloud_firestore: any
+  cloud_firestore: ^3.0.0
   rflutter_alert: any
   im_stepper: any
   bottom_navy_bar: ^6.0.0
@@ -45,6 +45,8 @@ dependencies:
   url_launcher: any
   maps_launcher: any
   pinput: ^0.2.6
+  flutter_local_notifications: ^9.0.0
+
 
 dev_dependencies:
   flutter_test:

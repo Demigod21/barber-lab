@@ -39,50 +39,9 @@ class RealHomePage extends State<RealHome> {
 
                     if (userModel.name == null || userModel.name == '') {
                       Future.delayed(Duration.zero, () => showAlert(context));
-                      //
-                      // Navigator.pushNamedAndRemoveUntil(
-                      //     context, '/home', (route) => false);
                     }
                     return createWelcomeBanner(context, userModel.name);
-                    // return Container(
-                    //   decoration: BoxDecoration(
-                    //     color: Color(0xFF383838),
-                    //   ),
-                    //   padding: const EdgeInsets.all(16),
-                    //   child: Row(
-                    //     children: [
-                    //       CircleAvatar(
-                    //         child: Icon(
-                    //           Icons.person,
-                    //           color: Colors.white,
-                    //           size: 30,
-                    //         ),
-                    //         backgroundColor: Colors.black,
-                    //         maxRadius: 30,
-                    //       ),
-                    //       SizedBox(
-                    //         width: 30,
-                    //       ),
-                    //       Expanded(
-                    //           child: Column(
-                    //         children: [
-                    //           Text('${userModel.name}',
-                    //               style: GoogleFonts.robotoMono(
-                    //                 fontSize: 22,
-                    //                 color: Colors.white,
-                    //                 fontWeight: FontWeight.bold,
-                    //               )),
-                    //           Text('${userModel.address}',
-                    //               style: GoogleFonts.robotoMono(
-                    //                 fontSize: 14,
-                    //                 color: Colors.white,
-                    //               ))
-                    //         ],
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //       ))
-                    //     ],
-                    //   ),
-                    // );
+
                   }
                 })
           ],
@@ -101,7 +60,7 @@ class RealHomePage extends State<RealHome> {
           child: Stack(
             children: [
               Container(
-                  height: size.height * 0.20 - 17,
+                  height: size.height * 0.20 - 20,
                   width: size.width,
                   decoration: BoxDecoration(
                       boxShadow: [
@@ -167,7 +126,7 @@ class RealHomePage extends State<RealHome> {
           height: 20,
         ),
         Container(
-          height: size.height * 0.35 - 20,
+          height: size.height * 0.35 - 30,
           width: size.width * 0.90,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -227,7 +186,7 @@ class RealHomePage extends State<RealHome> {
                     ),
                   ),
                   Text(
-                    '08:00 - 13:30 / 15:00 - 19:00',
+                    '08:00 - 13:00 / 15:00 - 19:00',
                     style: GoogleFonts.raleway(
                       fontSize: 14,
                       color: kPrimaryColor,
@@ -246,7 +205,7 @@ class RealHomePage extends State<RealHome> {
                     ),
                   ),
                   Text(
-                    '08:00 - 13:30 / 15:00 - 19:00',
+                    '08:00 - 13:00 / 15:00 - 19:00',
                     style: GoogleFonts.raleway(
                       fontSize: 14,
                       color: kPrimaryColor,
@@ -265,7 +224,7 @@ class RealHomePage extends State<RealHome> {
                     ),
                   ),
                   Text(
-                    '08:00 - 13:30 / 15:00 - 19:00',
+                    '08:00 - 13:00 / 15:00 - 19:00',
                     style: GoogleFonts.raleway(
                       fontSize: 14,
                       color: kPrimaryColor,
@@ -284,7 +243,7 @@ class RealHomePage extends State<RealHome> {
                     ),
                   ),
                   Text(
-                    '08:00 - 13:30 / 15:00 - 19:00',
+                    '08:00 - 13:00 / 15:00 - 19:00',
                     style: GoogleFonts.raleway(
                       fontSize: 14,
                       color: kPrimaryColor,
@@ -303,7 +262,7 @@ class RealHomePage extends State<RealHome> {
                     ),
                   ),
                   Text(
-                    '08:00 - 13:30 / 15:00 - 19:00',
+                    '08:00 - 13:00 / 15:00 - 19:00',
                     style: GoogleFonts.raleway(
                       fontSize: 14,
                       color: kPrimaryColor,
@@ -371,7 +330,7 @@ class RealHomePage extends State<RealHome> {
                     height: 10,
                   ),
                   Text(
-                    'Via fasulla, 123',
+                    'Via Roma, 201',
                     style: GoogleFonts.raleway(
                       fontSize: 14,
                       color: kPrimaryColor,

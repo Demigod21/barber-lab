@@ -22,7 +22,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="custom_barber_shop">
+        android:label="BarberLab">
         <!-- Add The Given Three Permissions on top after manifest declaration. -->
 
 

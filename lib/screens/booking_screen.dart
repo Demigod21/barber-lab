@@ -300,10 +300,10 @@ class BookingPage extends State<Booking> {
                         crossAxisSpacing: 3,
                         childAspectRatio: 1.6),
                     itemBuilder: (context, index) => GestureDetector(
-                          onTap: listTimeSlot.contains(index)
+                          onTap: !isAvailable(listTimeSlot, index)
                               ? null
                               : () {
-                                  if (listTimeSlot.contains(index)) {
+                                  if (!isAvailable(listTimeSlot, index)) {
                                     return;
                                   }
                                   var indexDopo = index + 1; //TODO CONTROLLARE ULTIMO SLOT
@@ -342,7 +342,7 @@ class BookingPage extends State<Booking> {
                                 },
                           child: Card(
                               elevation: 3,
-                              shadowColor: listTimeSlot.contains(index)
+                              shadowColor: !isAvailable(listTimeSlot, index)
                                   ? Colors.black
                                   : this.selectedTime ==
                                               TIME_SLOT.elementAt(index) ||
@@ -353,7 +353,7 @@ class BookingPage extends State<Booking> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),
                                 side: BorderSide(
-                                    color: listTimeSlot.contains(index)
+                                    color: !isAvailable(listTimeSlot, index)
                                         ? Colors.grey
                                         : this.selectedTime ==
                                                     TIME_SLOT
@@ -364,7 +364,7 @@ class BookingPage extends State<Booking> {
                                             : Colors.grey,
                                     width: 1),
                               ),
-                              color: listTimeSlot.contains(index)
+                              color: !isAvailable(listTimeSlot, index)
                                   ? Colors.grey
                                   : this.selectedTime ==
                                               TIME_SLOT.elementAt(index) ||
@@ -382,7 +382,7 @@ class BookingPage extends State<Booking> {
                                           children: [
                                     Text('${TIME_SLOT.elementAt(index)}',
                                         style: GoogleFonts.robotoMono(
-                                            color: listTimeSlot.contains(index)
+                                            color: !isAvailable(listTimeSlot, index)
                                                 ? Colors.white
                                                 : this.selectedTime ==
                                                             TIME_SLOT.elementAt(
@@ -397,7 +397,7 @@ class BookingPage extends State<Booking> {
                                             ? 'Occupato'
                                             : 'Libero',
                                         style: GoogleFonts.robotoMono(
-                                            color: listTimeSlot.contains(index)
+                                            color: !isAvailable(listTimeSlot, index)
                                                 ? Colors.white
                                                 : this.selectedTime ==
                                                             TIME_SLOT.elementAt(
@@ -544,6 +544,9 @@ class BookingPage extends State<Booking> {
       ScaffoldMessenger.of(scaffoldKey.currentContext)
           .showSnackBar(SnackBar(content: Text('Prenotazione Confermata')));
 
+      _showNotification();
+
+
       setState(() {
         this.selectedTimeSlot = -1;
         this.selectedDate = DateTime.now();
@@ -555,7 +558,6 @@ class BookingPage extends State<Booking> {
         this.indexRadio = -1;
       });
 
-      _showNotification();
       setState(() {});
     });
   }
@@ -620,7 +622,7 @@ class BookingPage extends State<Booking> {
         Expanded(
           child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Image.asset('assets/images/logo.png')),
+              child: Image.asset('assets/images/logo_bianco_rettangolare_1200_600.png')),
         ),
         Expanded(
             child: Container(
@@ -666,29 +668,15 @@ class BookingPage extends State<Booking> {
     );
   }
 
-  // Future _showNotification() async {
-  //   var androidDetails = new AndroidNotificationDetails(
-  //       "Reminder appuntamento!", "Domani hai un appuntamento da Barber Lab :)",
-  //       importance: Importance.max);
-  //   var iSODetails = new IOSNotificationDetails();
-  //   var generalNotificationDetails =
-  //   new NotificationDetails(android: androidDetails, iOS: iSODetails);
-  //
-  //   var scheduledTime = DateTime.now().add(Duration(seconds : 20));
-  //   fltrNotification.schedule(1, "Appuntamento", "Domani", scheduledTime, generalNotificationDetails);
-  //   await fltrNotification.show(
-  //       0, "Task", "You created a Task",
-  //       generalNotificationDetails, payload: "Task");
-  // }
 
   _showNotification() async {
     var android = new AndroidNotificationDetails(
-        'id', 'channel ',
+        'Reminder Appuntamento', 'Hai un apuntamento da Barber Lab a breve ',
         priority: Priority.high, importance: Importance.max);
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
-    await fltrNotification.show(
-        0, 'Flutter devs', 'Flutter Local Notification Demo', platform,
-        payload: 'Welcome to the Local Notification demo ');
+    var scheduledTime = this.selectedDate.subtract(Duration(hours : 3));
+    fltrNotification.schedule(1, "Reminder Appuntamento", "Hai un apuntamento da Barber Lab a breve ", scheduledTime, platform);
+
   }
 }

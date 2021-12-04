@@ -94,7 +94,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                 Text(
                                                   'Data',
                                                   style:
-                                                      GoogleFonts.robotoMono(),
+                                                      GoogleFonts.raleway(),
                                                 ),
                                                 Text(
                                                   DateFormat("dd/MM/yy").format(
@@ -103,7 +103,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                               userBookings[
                                                                       index]
                                                                   .timeStamp)),
-                                                  style: GoogleFonts.robotoMono(
+                                                  style: GoogleFonts.raleway(
                                                       fontSize: 22,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -115,12 +115,12 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                 Text(
                                                   'Orario',
                                                   style:
-                                                      GoogleFonts.robotoMono(),
+                                                      GoogleFonts.raleway(),
                                                 ),
                                                 Text(
                                                   TIME_SLOT.elementAt(
                                                       userBookings[index].slot),
-                                                  style: GoogleFonts.robotoMono(
+                                                  style: GoogleFonts.raleway(
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -137,8 +137,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                               children: [
                                                 Text(
                                                   'Note',
-                                                  style: GoogleFonts.robotoMono(
-                                                      fontSize: 22,
+                                                  style: GoogleFonts.raleway(
                                                       fontWeight:
                                                           FontWeight.normal),
                                                 ),
@@ -147,7 +146,11 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                       .elementAt(index)
                                                       .note,
                                                   style:
-                                                      GoogleFonts.robotoMono(),
+                                                      GoogleFonts.raleway(
+                                                        fontSize: 16,
+                                                          fontWeight:
+                                                          FontWeight.bold
+                                                      ),
                                                 ),
                                               ],
                                             ),
@@ -156,10 +159,10 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                 Text(
                                                   'Servizio scelto',
                                                   style:
-                                                      GoogleFonts.robotoMono(),
+                                                      GoogleFonts.raleway(),
                                                 ),
-                                                Text(userBookings.elementAt(index).note,
-                                                  style: GoogleFonts.robotoMono(
+                                                Text(userBookings.elementAt(index).tipoServizio,
+                                                  style: GoogleFonts.raleway(
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.bold),
@@ -197,7 +200,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                 isExpired
                                                     ? 'SCADUTO'
                                                     : 'CANCELLA',
-                                                style: GoogleFonts.robotoMono(
+                                                style: GoogleFonts.raleway(
                                                     color: Colors.white)),
                                           )
                                         ],

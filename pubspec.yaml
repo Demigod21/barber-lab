@@ -46,6 +46,7 @@ dependencies:
   maps_launcher: any
   pinput: ^0.2.6
   flutter_local_notifications: ^9.0.0
+  flutter_markdown: any
 
 
 dev_dependencies:
@@ -73,6 +74,7 @@ flutter:
 #   To add assets to your application, add an assets section, like this:
   assets:
      - assets/images/
+     - assets/md/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

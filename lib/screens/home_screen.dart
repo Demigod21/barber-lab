@@ -42,7 +42,7 @@ class HomePage extends State<Home> {
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.people),
-          title: Text('Utente'),
+          title: Text('Profilo'),
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.book),

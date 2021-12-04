@@ -98,6 +98,9 @@ class BookingPage extends State<Booking> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black
+                              ),
                                 onPressed: !isPrevSelecatble(step)
                                     ? null
                                     : () => actionPrev(step),
@@ -108,6 +111,9 @@ class BookingPage extends State<Booking> {
                           ),
                           Expanded(
                             child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.black
+                                ),
                                 onPressed: !isNextSelecatble(step)
                                     ? null
                                     : () => setState(() => this.step++),
@@ -166,14 +172,14 @@ class BookingPage extends State<Booking> {
           primary: Colors.white,
           onSurface : Colors.white,
           backgroundColor: Colors.white,
-          shadowColor: this.indexRadio == index ? Colors.blueAccent : Colors.grey,
+          shadowColor: this.indexRadio == index ? Colors.blueAccent : Colors.black,
           elevation: 3,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
           side: BorderSide(
               width: 1,
               color:
-                  this.indexRadio == index ? Colors.blueAccent : Colors.grey),
+                  this.indexRadio == index ? Colors.blueAccent : Colors.black),
         ),
         child: Padding(
           padding: const EdgeInsets.all(4),
@@ -185,7 +191,7 @@ class BookingPage extends State<Booking> {
                   Icon(Icons.accessible_forward_sharp,
                       color: this.indexRadio == index
                           ? Colors.blueAccent
-                          : Colors.grey),
+                          : Colors.black),
                 ]),
               ),
 
@@ -199,7 +205,7 @@ class BookingPage extends State<Booking> {
                                 fontSize: 18,
                                 color: this.indexRadio == index
                                     ? Colors.blueAccent
-                                    : Colors.grey)),
+                                    : Colors.black)),
                       )
                     ],
                   ),
@@ -208,15 +214,15 @@ class BookingPage extends State<Booking> {
                       Icon(Icons.access_time,
                           color: this.indexRadio == index
                               ? Colors.blueAccent
-                              : Colors.grey),
+                              : Colors.black),
                       Expanded(
-                        child: Text(" "+minutes + " minuti",
-                            style: GoogleFonts.robotoMono(
-                                fontSize: 14,
+                        child: Text(" "+minutes + " MINUTI",
+                            style: GoogleFonts.raleway(
+                                fontSize: 16,
 
                                 color: this.indexRadio == index
                                     ? Colors.blueAccent
-                                    : Colors.grey)),
+                                    : Colors.black)),
                       )
                     ],
                   )
@@ -231,7 +237,7 @@ class BookingPage extends State<Booking> {
     return Column(
       children: [
         Container(
-            color: Colors.blueAccent,
+            color: Colors.black,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -245,7 +251,7 @@ class BookingPage extends State<Booking> {
                                   '${DateFormat.MMMM('it').format(selectedDate)}'
                                       .toUpperCase(),
                                   style: GoogleFonts.robotoMono(
-                                    color: Colors.white54,
+                                    color: Colors.white,
                                   ),
                                 ),
                                 Text(
@@ -256,9 +262,10 @@ class BookingPage extends State<Booking> {
                                       fontSize: 22),
                                 ),
                                 Text(
-                                  '${DateFormat.EEEE('it').format(selectedDate)}',
+                                  '${DateFormat.EEEE('it').format(selectedDate)}'.toUpperCase(),
                                   style: GoogleFonts.robotoMono(
-                                    color: Colors.white54,
+                                    color: Colors.white,
+                                      fontSize: 18
                                   ),
                                 ),
                               ],
@@ -361,11 +368,11 @@ class BookingPage extends State<Booking> {
                                                 this.selectedTimeCombo ==
                                                     TIME_SLOT.elementAt(index)
                                             ? Colors.blueAccent
-                                            : Colors.grey,
+                                            : Colors.black,
                                     width: 1),
                               ),
                               color: !isAvailable(listTimeSlot, index)
-                                  ? Colors.grey
+                                  ? Colors.white
                                   : this.selectedTime ==
                                               TIME_SLOT.elementAt(index) ||
                                           this.selectedTimeCombo ==
@@ -381,9 +388,10 @@ class BookingPage extends State<Booking> {
                                               MainAxisAlignment.center,
                                           children: [
                                     Text('${TIME_SLOT.elementAt(index)}',
-                                        style: GoogleFonts.robotoMono(
+                                        style: GoogleFonts.raleway(
+                                            fontSize: 18,
                                             color: !isAvailable(listTimeSlot, index)
-                                                ? Colors.white
+                                                ? Colors.grey
                                                 : this.selectedTime ==
                                                             TIME_SLOT.elementAt(
                                                                 index) ||
@@ -391,14 +399,15 @@ class BookingPage extends State<Booking> {
                                                             TIME_SLOT.elementAt(
                                                                 index)
                                                     ? Colors.blueAccent
-                                                    : Colors.grey)),
+                                                    : Colors.black)),
                                     Text(
                                         !isAvailable(listTimeSlot, index)
                                             ? 'Occupato'
-                                            : 'Libero',
-                                        style: GoogleFonts.robotoMono(
+                                            : 'Disponibile',
+                                        style: GoogleFonts.raleway(
+                                            fontSize: 18,
                                             color: !isAvailable(listTimeSlot, index)
-                                                ? Colors.white
+                                                ? Colors.grey
                                                 : this.selectedTime ==
                                                             TIME_SLOT.elementAt(
                                                                 index) ||
@@ -406,7 +415,7 @@ class BookingPage extends State<Booking> {
                                                             TIME_SLOT.elementAt(
                                                                 index)
                                                     ? Colors.blueAccent
-                                                    : Colors.grey))
+                                                    : Colors.black))
                                   ])))),
                         ));
               }
@@ -662,7 +671,7 @@ class BookingPage extends State<Booking> {
                               child: Text('Conferma'),
                               style: ButtonStyle(
                                   backgroundColor: MaterialStateProperty.all(
-                                      Colors.black26)))
+                                      Colors.black)))
                         ])))))
       ],
     );

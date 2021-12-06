@@ -147,7 +147,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                       .note,
                                                   style:
                                                       GoogleFonts.raleway(
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                           fontWeight:
                                                           FontWeight.bold
                                                       ),
@@ -157,13 +157,35 @@ class StaffHistoryPage extends State<StaffHistory> {
                                             Column(
                                               children: [
                                                 Text(
+                                                  'Nome',
+                                                  style: GoogleFonts.raleway(
+                                                      fontWeight:
+                                                      FontWeight.normal),
+                                                ),
+                                                Text(
+                                                  userBookings
+                                                      .elementAt(index)
+                                                      .customerName,
+                                                  style:
+                                                  GoogleFonts.raleway(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                      FontWeight.bold
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+
+                                            Column(
+                                              children: [
+                                                Text(
                                                   'Servizio scelto',
                                                   style:
                                                       GoogleFonts.raleway(),
                                                 ),
                                                 Text(userBookings.elementAt(index).tipoServizio,
                                                   style: GoogleFonts.raleway(
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),

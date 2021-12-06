@@ -7,6 +7,7 @@ import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
 import 'package:custom_barber_shop/model/barber_model.dart';
 import 'package:custom_barber_shop/model/booking_model.dart';
 import 'package:custom_barber_shop/state/state_management.dart';
+import 'package:custom_barber_shop/utils/icons.dart';
 import 'package:custom_barber_shop/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -136,13 +137,13 @@ class BookingPage extends State<Booking> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    customRadio("BARBA", 0, "", "30"),
+                    customRadio("BARBA", 0, "", "30", BarberLabIcons.beard),
                     SizedBox(height: 20),
 
-                    customRadio("CAPELLI", 1, "", "30"),
+                    customRadio("CAPELLI", 1, "", "30", BarberLabIcons.hair),
                     SizedBox(height: 20),
 
-                    customRadio("BARBA E CAPELLI", 2, "", "60"),
+                    customRadio("BARBA E CAPELLI", 2, "", "60", BarberLabIcons.hair_beard),
                   ],
                 )));
   }
@@ -165,7 +166,7 @@ class BookingPage extends State<Booking> {
     });
   }
 
-  customRadio(String txt, int index, String imagePath, String minutes) {
+  customRadio(String txt, int index, String imagePath, String minutes, IconData icon) {
     return OutlinedButton(
         onPressed: () => changeIndexRadio(index, txt),
         style: OutlinedButton.styleFrom(
@@ -188,7 +189,7 @@ class BookingPage extends State<Booking> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
                 child : Column(children: [
-                  Icon(Icons.accessible_forward_sharp,
+                  Icon(icon,
                       color: this.indexRadio == index
                           ? Colors.blueAccent
                           : Colors.black),
@@ -577,15 +578,20 @@ class BookingPage extends State<Booking> {
     output = selectedDate.weekday == DateTime.monday ? false : output;
     output = selectedDate.weekday == DateTime.sunday ? false : output;
 
-    if (selectedDate.day == DateTime.now().weekday) {
-      if(selectedDate.hour < DateTime.now().hour){
-        output = false;
-      }else if (selectedDate.hour == DateTime.now().hour){
-        if(selectedDate.minute <= DateTime.now().minute){
-          output = false;
-        }
-      }
+    final today = DateTime(now.year, now.month, now.day);
+    final aDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+
+    if(aDate == today){
+
     }
+
+    String timeslot = TIME_SLOT.elementAt(index);
+    String hours = timeslot.substring(0, 2);
+    int hoursInt = int.parse(hours);
+
+    var hoursNow = DateFormat("hh").format(DateTime.now().toLocal()).toString();
+
+
     return output;
   }
 

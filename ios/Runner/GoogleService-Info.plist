@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1027836004245-h0u0iqpjk7csta0g77dkos7i4k2qh1br.apps.googleusercontent.com</string>
+	<string>200194091593-i5tsdvtlakq2m719e78padijp31d66gc.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1027836004245-h0u0iqpjk7csta0g77dkos7i4k2qh1br</string>
+	<string>com.googleusercontent.apps.200194091593-i5tsdvtlakq2m719e78padijp31d66gc</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAKsU-pGQdborFDrxmjlVRbb9_g_aKF7OQ</string>
+	<string>AIzaSyCMRv6cUd8toAmYv6BiOuKf7-mmixUTb_w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1027836004245</string>
+	<string>200194091593</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.davide.falcone.customBarberShop</string>
 	<key>PROJECT_ID</key>
-	<string>custom-barber-shop-sabatini</string>
+	<string>custom-barber-shop-sabat-2aed1</string>
 	<key>STORAGE_BUCKET</key>
-	<string>custom-barber-shop-sabatini.appspot.com</string>
+	<string>custom-barber-shop-sabat-2aed1.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1027836004245:ios:5a354723189c1a6c7a989c</string>
+	<string>1:200194091593:ios:997ab25a307647c6a52d98</string>
 </dict>
 </plist>

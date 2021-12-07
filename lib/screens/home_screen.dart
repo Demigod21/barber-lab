@@ -38,14 +38,23 @@ class HomePage extends State<Home> {
       items: <BottomNavyBarItem>[
         BottomNavyBarItem(
           icon: Icon(Icons.home),
+          textAlign: TextAlign.center,
+          inactiveColor: Colors.black87,
+          activeColor: Colors.black,
           title: Text('Home'),
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.people),
+          textAlign: TextAlign.center,
+          inactiveColor: Colors.black87,
+          activeColor: Colors.black,
           title: Text('Profilo'),
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.book),
+          textAlign: TextAlign.center,
+          inactiveColor: Colors.black87,
+          activeColor: Colors.black,
           title: Text('Prenota'),
         )
       ],

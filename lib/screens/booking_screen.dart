@@ -691,7 +691,9 @@ class BookingPage extends State<Booking> {
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
     var scheduledTime = this.selectedDate.subtract(Duration(hours : 3));
+    var scheduledTimeDay = this.selectedDate.subtract(Duration(days : 1));
     fltrNotification.schedule(1, "Reminder Appuntamento", "Hai un apuntamento da Barber Lab a breve ", scheduledTime, platform);
+    fltrNotification.schedule(1, "Reminder Appuntamento", "Hai un apuntamento da Barber Lab domani ", scheduledTimeDay, platform);
 
   }
 }

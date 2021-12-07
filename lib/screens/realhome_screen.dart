@@ -362,7 +362,7 @@ class RealHomePage extends State<RealHome> {
                       ),
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                          image: AssetImage('assets/images/img_temp_maps.PNG'),
+                          image: AssetImage('assets/images/img_def_maps.PNG'),
                           fit: BoxFit.cover)),
                 ),
               ))
@@ -375,7 +375,7 @@ class RealHomePage extends State<RealHome> {
 
   Future<void> _launchMaps() async {
     final url =
-        'https://www.google.com/maps/search/?api=1&query=centurylink+field';
+        'https://goo.gl/maps/Z5ACYLi2nyc8wzo67';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

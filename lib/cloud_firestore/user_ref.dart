@@ -1,7 +1,7 @@
-import 'package:custom_barber_shop/model/booking_model.dart';
-import 'package:custom_barber_shop/model/user_model.dart';
+import 'package:barber_lab_sabatini/model/booking_model.dart';
+import 'package:barber_lab_sabatini/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_barber_shop/state/state_management.dart';
+import 'package:barber_lab_sabatini/state/state_management.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

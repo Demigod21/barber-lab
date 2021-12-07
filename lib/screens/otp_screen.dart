@@ -1,4 +1,4 @@
-import 'package:custom_barber_shop/screens/home_screen.dart';
+import 'package:barber_lab_sabatini/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

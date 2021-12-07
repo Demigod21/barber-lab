@@ -3,12 +3,12 @@ import 'dart:core';
 import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
-import 'package:custom_barber_shop/model/barber_model.dart';
-import 'package:custom_barber_shop/model/booking_model.dart';
-import 'package:custom_barber_shop/state/state_management.dart';
-import 'package:custom_barber_shop/utils/icons.dart';
-import 'package:custom_barber_shop/utils/utils.dart';
+import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
+import 'package:barber_lab_sabatini/model/barber_model.dart';
+import 'package:barber_lab_sabatini/model/booking_model.dart';
+import 'package:barber_lab_sabatini/state/state_management.dart';
+import 'package:barber_lab_sabatini/utils/icons.dart';
+import 'package:barber_lab_sabatini/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

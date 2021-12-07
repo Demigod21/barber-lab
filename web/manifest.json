@@ -1,6 +1,6 @@
 {
-    "name": "custom_barber_shop",
-    "short_name": "custom_barber_shop",
+    "name": "barber_lab_sabatini",
+    "short_name": "barber_lab_sabatini",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

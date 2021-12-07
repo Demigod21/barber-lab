@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:custom_barber_shop/screens/policy_dialog.dart';
+import 'package:barber_lab_sabatini/screens/policy_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

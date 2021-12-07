@@ -1,42 +1,49 @@
 {
   "project_info": {
-    "project_number": "1073916954790",
-    "project_id": "custombarbershopsabatini",
-    "storage_bucket": "custombarbershopsabatini.appspot.com"
+    "project_number": "200194091593",
+    "project_id": "custom-barber-shop-sabat-2aed1",
+    "storage_bucket": "custom-barber-shop-sabat-2aed1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1073916954790:android:b55189c82ada59d6874c67",
+        "mobilesdk_app_id": "1:200194091593:android:789158ba8c019b4ea52d98",
         "android_client_info": {
-          "package_name": "com.davide.falcone.custom_barber_shop"
+          "package_name": "com.davide.falcone.barber_lab_sabatini"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1073916954790-o9n3eqvhm67p88ndu4fkdv62tkovu21o.apps.googleusercontent.com",
+          "client_id": "200194091593-4vs0a9r2ob20vbktpqcb0pjjkidc3rok.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.davide.falcone.custom_barber_shop",
+            "package_name": "com.davide.falcone.barber_lab_sabatini",
             "certificate_hash": "224145aee05a7b90018474498b2296ce3c5b4742"
           }
         },
         {
-          "client_id": "1073916954790-6evih8av14skvlondk62r7vpbtsp0d1v.apps.googleusercontent.com",
+          "client_id": "200194091593-j12ujcct4ekefk074g7n2nkvmfevig5r.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC-8i814Puyr0efyoM0Jq1n6Mu5GRM4O80"
+          "current_key": "AIzaSyCeiE1L-U334nEMfLPCOT3CYM_q2aXiY50"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1073916954790-6evih8av14skvlondk62r7vpbtsp0d1v.apps.googleusercontent.com",
+              "client_id": "200194091593-j12ujcct4ekefk074g7n2nkvmfevig5r.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "200194091593-i5tsdvtlakq2m719e78padijp31d66gc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.davide.falcone.customBarberShop"
+              }
             }
           ]
         }

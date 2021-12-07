@@ -1,4 +1,4 @@
-package com.davide.falcone.custom_barber_shop;
+package com.davide.falcone.barber_lab_sabatini;
 
 import io.flutter.embedding.android.FlutterActivity;
 

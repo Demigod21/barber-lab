@@ -1,4 +1,4 @@
-# custom_barber_shop
+# barber_lab_sabatini
 
 A new Flutter project for a new barber shop in town
 

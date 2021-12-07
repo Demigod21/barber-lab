@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
-import 'package:custom_barber_shop/constants/constants.dart';
-import 'package:custom_barber_shop/model/user_model.dart';
+import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
+import 'package:barber_lab_sabatini/constants/constants.dart';
+import 'package:barber_lab_sabatini/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +37,7 @@ class RealHomePage extends State<RealHome> {
                   } else {
                     var userModel = snapshot.data as UserModel;
 
-                    if (userModel.name == null || userModel.name == '') {
+                    if (userModel == null || userModel.name == null || userModel.name == '') {
                       Future.delayed(Duration.zero, () => showAlert(context));
                     }
                     return createWelcomeBanner(context, userModel.name);

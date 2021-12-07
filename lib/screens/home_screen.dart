@@ -1,9 +1,9 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:custom_barber_shop/cloud_firestore/user_ref.dart';
-import 'package:custom_barber_shop/model/user_model.dart';
-import 'package:custom_barber_shop/screens/realhome_screen.dart';
-import 'package:custom_barber_shop/screens/staff_history_screen.dart';
-import 'package:custom_barber_shop/screens/user_history_screen.dart';
+import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
+import 'package:barber_lab_sabatini/model/user_model.dart';
+import 'package:barber_lab_sabatini/screens/realhome_screen.dart';
+import 'package:barber_lab_sabatini/screens/staff_history_screen.dart';
+import 'package:barber_lab_sabatini/screens/user_history_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,10 @@ class HomePage extends State<Home> {
             );
           } else {
             var userModel = snapshot.data as UserModel;
-            bool isStaff = userModel.isStaff;
+            bool isStaff = false;
+            if(userModel != null){
+              isStaff = userModel.isStaff;
+            }
             switch (index) {
               case 0:
                 return RealHome();

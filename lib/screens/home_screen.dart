@@ -22,13 +22,22 @@ class HomePage extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Color(0xFFDFDFDF),
-      body: builldBody2(),
-      bottomNavigationBar: buildBottomNavigationBar(),
-    ));
+    return WillPopScope(
+        child: SafeArea(
+            child: Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: Color(0xFFDFDFDF),
+          body: builldBody2(),
+          bottomNavigationBar: buildBottomNavigationBar(),
+        )),
+        onWillPop: () async {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+                  (route) => false);
+              (index) => setState(() => this.index = 0);
+              return false;
+        });
   }
 
   Widget buildBottomNavigationBar() {
@@ -73,14 +82,14 @@ class HomePage extends State<Home> {
           } else {
             var userModel = snapshot.data as UserModel;
             bool isStaff = false;
-            if(userModel != null){
+            if (userModel != null) {
               isStaff = userModel.isStaff;
             }
             switch (index) {
               case 0:
                 return RealHome();
               case 1:
-                if(isStaff){
+                if (isStaff) {
                   return StaffHistory();
                 }
                 return UserHistory();

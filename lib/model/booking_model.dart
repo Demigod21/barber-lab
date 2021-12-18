@@ -12,7 +12,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingModel {
-  String docId, barberName, customerName, customerPhone, time, note, tipoServizio, uuidLinkedHourBooking;
+  String docId, barberName, customerName, customerPhone, time, note, tipoServizio, uuidLinkedHourBooking, userCollection;
   bool done;
   int slot, timeStamp, slotLinkedHourBooking;
 
@@ -30,7 +30,8 @@ class BookingModel {
       this.note,
       this.tipoServizio,
       this.uuidLinkedHourBooking,
-      this.slotLinkedHourBooking});
+      this.slotLinkedHourBooking,
+      this.userCollection});
 
   BookingModel.fromJson(Map<String, dynamic> json) {
     docId = json['docId'];
@@ -46,6 +47,8 @@ class BookingModel {
         json['timeStamp'] == null ? '-1' : json['timeStamp'].toString());
     tipoServizio = json['tipoServizio'];
     uuidLinkedHourBooking = json['uuidHourBooking'];
+    userCollection = json['userCollection'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -61,7 +64,7 @@ class BookingModel {
     data['timeStamp'] = this.timeStamp;
     data['tipoServizio'] = this.tipoServizio;
     data['uuidHourBooking'] = this.uuidLinkedHourBooking;
-
+    data['userCollection'] = this.userCollection;
 
     return data;
   }

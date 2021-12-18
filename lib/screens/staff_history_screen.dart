@@ -279,9 +279,16 @@ class StaffHistoryPage extends State<StaffHistory> {
 
     var userBooking = bookingModel.reference;
 
+    var realUserBooking = databaseReference
+        .collection('User')
+        .doc(bookingModel.customerPhone)
+        .collection(bookingModel.userCollection)
+        .doc(bookingModel.docId.toString());
+
     batch.delete(userBooking);
     batch.delete(barberBooking);
     batch.delete(barberBookingSlot);
+    batch.delete(realUserBooking);
 
     batch.commit().then((value) {
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);

@@ -13,12 +13,12 @@ if (flutterRoot == null) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '2'
+    flutterVersionCode = '4'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '2'
+    flutterVersionName = '4'
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.android.application'
@@ -38,8 +38,8 @@ android {
         applicationId "com.davide.falcone.barber_lab_sabatini"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4"
 
         multiDexEnabled true
     }

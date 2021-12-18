@@ -435,6 +435,8 @@ class BookingPage extends State<Booking> {
         ? selectedTime.split(':')[1].substring(0, 1)
         : selectedTime.split(':')[0].substring(0, 2);
 
+    var userCollection = 'Booking_${FirebaseAuth.instance.currentUser.uid}';
+
     setState(() {
       this.note = noteController.text;
     });
@@ -467,7 +469,8 @@ class BookingPage extends State<Booking> {
         time:
             '${selectedTime} - ${DateFormat('dd/MM/yyy').format(selectedDate)}',
         note: note,
-        uuidLinkedHourBooking: uuidSuccessivo);
+        uuidLinkedHourBooking: uuidSuccessivo,
+        userCollection: userCollection);
 
     var bookingModelSuccessivo;
 
@@ -493,7 +496,8 @@ class BookingPage extends State<Booking> {
           time:
               '${selectedTimeCombo} - ${DateFormat('dd/MM/yyy').format(selectedDate)}',
           note: note,
-          uuidLinkedHourBooking: stringUuid);
+          uuidLinkedHourBooking: stringUuid,
+          userCollection: userCollection);
     }
 
     final databaseReference = FirebaseFirestore.instance;

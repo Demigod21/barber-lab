@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:barber_lab_sabatini/screens/guest_home_screen.dart';
 import 'package:barber_lab_sabatini/screens/policy_dialog.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -101,7 +102,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                width: double.infinity,
+                child: FlatButton(
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => GuestHome()));
+                  },
+                  child: Text(
+                    'Continua come Guest',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               )
+
             ],
           )
 

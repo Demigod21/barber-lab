@@ -1,6 +1,6 @@
-# custom_barber_shop
+# Barber Lab
 
-A new Flutter project for a new barber shop in town
+Flutter application for Barber Lab, a barber shop in Pontedera
 
 ## Getting Started
 

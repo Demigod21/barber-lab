@@ -12,9 +12,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingModel {
-  String docId, barberName, customerName, customerPhone, time, note;
+  String docId, barberName, customerName, customerPhone, time, note, tipoServizio, uuidLinkedHourBooking, userCollection;
   bool done;
-  int slot, timeStamp;
+  int slot, timeStamp, slotLinkedHourBooking;
 
   DocumentReference reference;
 
@@ -27,7 +27,11 @@ class BookingModel {
       this.done,
       this.slot,
       this.timeStamp,
-      this.note});
+      this.note,
+      this.tipoServizio,
+      this.uuidLinkedHourBooking,
+      this.slotLinkedHourBooking,
+      this.userCollection});
 
   BookingModel.fromJson(Map<String, dynamic> json) {
     docId = json['docId'];
@@ -38,8 +42,13 @@ class BookingModel {
     note = json['note'];
     done = json['done'] as bool;
     slot = int.parse(json['slot'] == null ? '-1' : json['slot'].toString());
+    slotLinkedHourBooking = int.parse(json['slotLinkedHourBooking'] == null ? '-1' : json['slotLinkedHourBooking'].toString());
     timeStamp = int.parse(
         json['timeStamp'] == null ? '-1' : json['timeStamp'].toString());
+    tipoServizio = json['tipoServizio'];
+    uuidLinkedHourBooking = json['uuidHourBooking'];
+    userCollection = json['userCollection'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -51,7 +60,11 @@ class BookingModel {
     data['time'] = this.time;
     data['note'] = this.note;
     data['slot'] = this.slot;
+    data['slotLinkedHourBooking'] = this.slotLinkedHourBooking;
     data['timeStamp'] = this.timeStamp;
+    data['tipoServizio'] = this.tipoServizio;
+    data['uuidHourBooking'] = this.uuidLinkedHourBooking;
+    data['userCollection'] = this.userCollection;
 
     return data;
   }

@@ -1,7 +1,7 @@
 
 
-import 'package:custom_barber_shop/model/barber_model.dart';
-import 'package:custom_barber_shop/model/user_model.dart';
+import 'package:barber_lab_sabatini/model/barber_model.dart';
+import 'package:barber_lab_sabatini/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/all.dart';
 

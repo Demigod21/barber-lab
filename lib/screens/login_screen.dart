@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.only(top: 5),
                 child: Center(
                   child: Text(
-                    'Autentificazione via cellulare',
+                    'Autenticazione via cellulare',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                   ),
                 ),
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           builder: (context) => GuestHome()));
                     },
                     child: Text(
-                      'Continua come Guest',
+                      'Continua come ospite',
                       style: TextStyle(color: Colors.white),
                     ),
                   ),

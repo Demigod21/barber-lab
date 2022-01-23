@@ -314,9 +314,9 @@ class BookingPage extends State<Booking> {
                                   if (!isAvailable(listTimeSlot, index)) {
                                     return;
                                   }
-                                  var indexDopo = index + 1; //TODO CONTROLLARE ULTIMO SLOT
+                                  var indexDopo = index + 1;
                                   if (isCombo &&
-                                      (listTimeSlot.contains(indexDopo) || index == 99) ) {
+                                      (listTimeSlot.contains(indexDopo) || index == 17) ) {
                                     Alert(
                                         context: context,
                                         type: AlertType.warning,

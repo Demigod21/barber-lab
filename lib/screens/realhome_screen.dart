@@ -37,11 +37,12 @@ class RealHomePage extends State<RealHome> {
                   } else {
                     var userModel = snapshot.data as UserModel;
 
-                    if (userModel == null || userModel.name == null || userModel.name == '') {
+                    if (userModel == null ||
+                        userModel.name == null ||
+                        userModel.name == '') {
                       Future.delayed(Duration.zero, () => showAlert(context));
                     }
                     return createWelcomeBanner(context, userModel.name);
-
                   }
                 })
           ],
@@ -85,6 +86,7 @@ class RealHomePage extends State<RealHome> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
+                        //todo ADD DELETE BUTTON HERE
                       ),
                     ),
                   )),
@@ -374,8 +376,7 @@ class RealHomePage extends State<RealHome> {
   }
 
   Future<void> _launchMaps() async {
-    final url =
-        'https://goo.gl/maps/Z5ACYLi2nyc8wzo67';
+    final url = 'https://goo.gl/maps/Z5ACYLi2nyc8wzo67';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

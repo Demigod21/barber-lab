@@ -79,14 +79,38 @@ class RealHomePage extends State<RealHome> {
                     padding: const EdgeInsets.all(16),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Ciao ${userName}!',
-                        style: GoogleFonts.raleway(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        //todo ADD DELETE BUTTON HERE
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Ciao ${userName}!',
+                            style: GoogleFonts.raleway(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          OutlinedButton(
+                              style:
+                                  OutlinedButton.styleFrom(primary: Colors.red),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            title: Text(
+                                                'Conferma cancellazione account'),
+                                            content: Text(
+                                                'Clickando su CANCELLA si conferma la cancellazione del proprio profilo e delle relative informazioni e prenotazioni'),
+                                            actions: [
+                                              TextButton(
+                                                child: Text('CANCELLA'),
+                                                onPressed:
+                                                    null, //TODO AGGIUNGERE QUI FUNZIONE
+                                              )
+                                            ]));
+                              },
+                              child: Icon(Icons.delete, color: Colors.red))
+                        ],
                       ),
                     ),
                   )),

@@ -408,6 +408,23 @@ class RealHomePage extends State<RealHome> {
     }
   }
 
+  void deleteUser() {
+    final databaseReference = FirebaseFirestore.instance;
+    var batch = FirebaseFirestore.instance.batch();
+
+    var currentUser = databaseReference
+        .collection('User')
+        .doc(FirebaseAuth.instance.currentUser.phoneNumber);
+
+    var allBookings = databaseReference
+        .collection('User')
+        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+        .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
+        .get();
+
+    batch.delete(currentUser);
+  }
+
   void showAlert(BuildContext context) {
     showDialog(
         context: context,

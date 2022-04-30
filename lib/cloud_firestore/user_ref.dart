@@ -20,7 +20,8 @@ Future<UserModel> getUserProfiles(BuildContext context, String phone) async {
   }
 }
 
-Future<UserModel> getUserProfilesLogin(BuildContext context, String phone) async {
+Future<UserModel> getUserProfilesLogin(
+    BuildContext context, String phone) async {
   CollectionReference userRef = FirebaseFirestore.instance.collection('User');
   DocumentSnapshot snapshot = await userRef.doc(phone).get();
   if (snapshot.exists) {
@@ -56,7 +57,8 @@ Future<List<BookingModel>> getUserHistory() async {
   var userRef = FirebaseFirestore.instance
       .collection('User')
       .doc(FirebaseAuth.instance.currentUser.phoneNumber)
-      .collection('Booking_${FirebaseAuth.instance.currentUser.uid}');
+      .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
+      .limit(20);
 
   var snapshot = await userRef.orderBy('timeStamp', descending: true).get();
   snapshot.docs.forEach((element) {
@@ -68,13 +70,13 @@ Future<List<BookingModel>> getUserHistory() async {
   return listBooking;
 }
 
-
 Future<List<BookingModel>> getBarberHistory() async {
   var listBooking = new List<BookingModel>.empty(growable: true);
   var userRef = FirebaseFirestore.instance
       .collection('Barber')
       .doc('LorenzoStaff')
-      .collection('BookingStaff');
+      .collection('BookingStaff')
+      .limit(40);
 
   var snapshot = await userRef.orderBy('timeStamp', descending: true).get();
   snapshot.docs.forEach((element) {

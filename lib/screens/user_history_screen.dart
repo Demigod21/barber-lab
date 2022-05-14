@@ -6,7 +6,6 @@ import 'package:barber_lab_sabatini/model/booking_model.dart';
 import 'package:barber_lab_sabatini/state/state_management.dart';
 import 'package:barber_lab_sabatini/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/all.dart';

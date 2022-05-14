@@ -1,10 +1,7 @@
 import 'dart:core';
-import 'dart:core';
-import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
-import 'package:barber_lab_sabatini/model/barber_model.dart';
 import 'package:barber_lab_sabatini/model/booking_model.dart';
 import 'package:barber_lab_sabatini/state/state_management.dart';
 import 'package:barber_lab_sabatini/utils/icons.dart';
@@ -22,8 +19,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
-
-import 'home_screen.dart';
 
 class Booking extends StatefulWidget {
   @override
@@ -53,8 +48,8 @@ class BookingPage extends State<Booking> {
     super.initState();
     var androidInitilize = new AndroidInitializationSettings('nero');
     var iOSinitilize = new IOSInitializationSettings();
-    var initilizationsSettings =
-    new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+    var initilizationsSettings = new InitializationSettings(
+        android: androidInitilize, iOS: iOSinitilize);
     fltrNotification = new FlutterLocalNotificationsPlugin();
     fltrNotification.initialize(initilizationsSettings,
         onSelectNotification: null);
@@ -99,9 +94,8 @@ class BookingPage extends State<Booking> {
                         children: [
                           Expanded(
                             child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.black
-                              ),
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.black),
                                 onPressed: !isPrevSelecatble(step)
                                     ? null
                                     : () => actionPrev(step),
@@ -113,12 +107,13 @@ class BookingPage extends State<Booking> {
                           Expanded(
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                    primary: Colors.black
-                                ),
+                                    primary: Colors.black),
                                 onPressed: !isNextSelecatble(step)
                                     ? null
                                     : () => setState(() => this.step++),
-                                child: step == 3? Text('Conferma') : Text('Avanti')),
+                                child: step == 3
+                                    ? Text('Conferma')
+                                    : Text('Avanti')),
                           ),
                         ],
                       ))))
@@ -130,22 +125,20 @@ class BookingPage extends State<Booking> {
 
   displayServices() {
     return Center(
-            child: Padding(
-                padding: const EdgeInsets.all(40),
-                child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    customRadio("BARBA", 0, "", "30", BarberLabIcons.beard),
-                    SizedBox(height: 20),
-
-                    customRadio("CAPELLI", 1, "", "30", BarberLabIcons.hair),
-                    SizedBox(height: 20),
-
-                    customRadio("BARBA E CAPELLI", 2, "", "60", BarberLabIcons.hair_beard),
-                  ],
-                )));
+        child: Padding(
+            padding: const EdgeInsets.all(40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                customRadio("BARBA", 0, "", "30", BarberLabIcons.beard),
+                SizedBox(height: 20),
+                customRadio("CAPELLI", 1, "", "30", BarberLabIcons.hair),
+                SizedBox(height: 20),
+                customRadio(
+                    "BARBA E CAPELLI", 2, "", "60", BarberLabIcons.hair_beard),
+              ],
+            )));
   }
 
   changeIndexRadio(int indexRadio, String txt) {
@@ -166,14 +159,16 @@ class BookingPage extends State<Booking> {
     });
   }
 
-  customRadio(String txt, int index, String imagePath, String minutes, IconData icon) {
+  customRadio(
+      String txt, int index, String imagePath, String minutes, IconData icon) {
     return OutlinedButton(
         onPressed: () => changeIndexRadio(index, txt),
         style: OutlinedButton.styleFrom(
           primary: Colors.white,
-          onSurface : Colors.white,
+          onSurface: Colors.white,
           backgroundColor: Colors.white,
-          shadowColor: this.indexRadio == index ? Colors.blueAccent : Colors.black,
+          shadowColor:
+              this.indexRadio == index ? Colors.blueAccent : Colors.black,
           elevation: 3,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -188,14 +183,13 @@ class BookingPage extends State<Booking> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                child : Column(children: [
+                child: Column(children: [
                   Icon(icon,
                       color: this.indexRadio == index
                           ? Colors.blueAccent
                           : Colors.black),
                 ]),
               ),
-
               Expanded(
                 child: Column(children: [
                   Row(
@@ -217,10 +211,9 @@ class BookingPage extends State<Booking> {
                               ? Colors.blueAccent
                               : Colors.black),
                       Expanded(
-                        child: Text(" "+minutes + " MINUTI",
+                        child: Text(" " + minutes + " MINUTI",
                             style: GoogleFonts.raleway(
                                 fontSize: 16,
-
                                 color: this.indexRadio == index
                                     ? Colors.blueAccent
                                     : Colors.black)),
@@ -263,11 +256,10 @@ class BookingPage extends State<Booking> {
                                       fontSize: 22),
                                 ),
                                 Text(
-                                  '${DateFormat.EEEE('it').format(selectedDate)}'.toUpperCase(),
+                                  '${DateFormat.EEEE('it').format(selectedDate)}'
+                                      .toUpperCase(),
                                   style: GoogleFonts.robotoMono(
-                                    color: Colors.white,
-                                      fontSize: 18
-                                  ),
+                                      color: Colors.white, fontSize: 18),
                                 ),
                               ],
                             )))),
@@ -316,7 +308,8 @@ class BookingPage extends State<Booking> {
                                   }
                                   var indexDopo = index + 1;
                                   if (isCombo &&
-                                      (listTimeSlot.contains(indexDopo) || index == 17) ) {
+                                      (listTimeSlot.contains(indexDopo) ||
+                                          index == 17)) {
                                     Alert(
                                         context: context,
                                         type: AlertType.warning,
@@ -391,7 +384,8 @@ class BookingPage extends State<Booking> {
                                     Text('${TIME_SLOT.elementAt(index)}',
                                         style: GoogleFonts.raleway(
                                             fontSize: 18,
-                                            color: !isAvailable(listTimeSlot, index)
+                                            color: !isAvailable(
+                                                    listTimeSlot, index)
                                                 ? Colors.grey
                                                 : this.selectedTime ==
                                                             TIME_SLOT.elementAt(
@@ -407,7 +401,8 @@ class BookingPage extends State<Booking> {
                                             : 'Disponibile',
                                         style: GoogleFonts.raleway(
                                             fontSize: 18,
-                                            color: !isAvailable(listTimeSlot, index)
+                                            color: !isAvailable(
+                                                    listTimeSlot, index)
                                                 ? Colors.grey
                                                 : this.selectedTime ==
                                                             TIME_SLOT.elementAt(
@@ -560,7 +555,6 @@ class BookingPage extends State<Booking> {
 
       _showNotification();
 
-
       setState(() {
         this.selectedTimeSlot = -1;
         this.selectedDate = DateTime.now();
@@ -583,11 +577,10 @@ class BookingPage extends State<Booking> {
     output = selectedDate.weekday == DateTime.sunday ? false : output;
 
     final today = DateTime(now.year, now.month, now.day);
-    final aDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    final aDate =
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
-    if(aDate == today){
-
-    }
+    if (aDate == today) {}
 
     String timeslot = TIME_SLOT.elementAt(index);
     String hours = timeslot.substring(0, 2);
@@ -595,31 +588,29 @@ class BookingPage extends State<Booking> {
 
     var hoursNow = DateFormat("hh").format(DateTime.now().toLocal()).toString();
 
-
     return output;
   }
 
-  bool isNextSelecatble(int stepParam){
-    if (stepParam == 3){
+  bool isNextSelecatble(int stepParam) {
+    if (stepParam == 3) {
       return false;
     }
-    if(stepParam == 1 && this.tipoServizio == ''){
+    if (stepParam == 1 && this.tipoServizio == '') {
       return false;
     }
-    if(stepParam == 2 && this.selectedTime == ''){
+    if (stepParam == 2 && this.selectedTime == '') {
       return false;
     }
     return true;
   }
 
-  bool isPrevSelecatble(int stepParam){
-    if(stepParam == 1)
-      return false;
+  bool isPrevSelecatble(int stepParam) {
+    if (stepParam == 1) return false;
     return true;
   }
 
-  void actionPrev(int stepParam){
-    if(stepParam == 2){
+  void actionPrev(int stepParam) {
+    if (stepParam == 2) {
       setState(() {
         this.selectedTimeSlot = -1;
         this.selectedDate = DateTime.now();
@@ -641,7 +632,8 @@ class BookingPage extends State<Booking> {
         Expanded(
           child: Padding(
               padding: const EdgeInsets.all(24),
-              child: Image.asset('assets/images/logo_bianco_rettangolare_1200_600.png')),
+              child: Image.asset(
+                  'assets/images/logo_bianco_rettangolare_1200_600.png')),
         ),
         Expanded(
             child: Container(
@@ -680,13 +672,12 @@ class BookingPage extends State<Booking> {
                               onPressed: () => confirmBooking(),
                               child: Text('Conferma'),
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.black)))
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.black)))
                         ])))))
       ],
     );
   }
-
 
   _showNotification() async {
     var android = new AndroidNotificationDetails(
@@ -694,10 +685,11 @@ class BookingPage extends State<Booking> {
         priority: Priority.high, importance: Importance.max);
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
-    var scheduledTime = this.selectedDate.subtract(Duration(hours : 3));
-    var scheduledTimeDay = this.selectedDate.subtract(Duration(days : 1));
-    fltrNotification.schedule(1, "Reminder Appuntamento", "Hai un apuntamento da Barber Lab a breve ", scheduledTime, platform);
-    fltrNotification.schedule(1, "Reminder Appuntamento", "Hai un apuntamento da Barber Lab domani ", scheduledTimeDay, platform);
-
+    var scheduledTime = this.selectedDate.subtract(Duration(hours: 3));
+    var scheduledTimeDay = this.selectedDate.subtract(Duration(days: 1));
+    fltrNotification.schedule(1, "Reminder Appuntamento",
+        "Hai un apuntamento da Barber Lab a breve ", scheduledTime, platform);
+    fltrNotification.schedule(1, "Reminder Appuntamento",
+        "Hai un apuntamento da Barber Lab domani ", scheduledTimeDay, platform);
   }
 }

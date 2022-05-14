@@ -1,25 +1,17 @@
 import 'dart:core';
-import 'dart:core';
-import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
-import 'package:barber_lab_sabatini/model/barber_model.dart';
 import 'package:barber_lab_sabatini/model/booking_model.dart';
-import 'package:barber_lab_sabatini/screens/booking_screen.dart';
 import 'package:barber_lab_sabatini/state/state_management.dart';
 import 'package:barber_lab_sabatini/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/all.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
-import 'home_screen.dart';
 
 class UserHistory extends StatefulWidget {
   @override
@@ -231,7 +223,6 @@ class UserHistoryPage extends State<UserHistory> {
           .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
           .doc(uuidAlternativo);
 
-
       var barberBookingSlotSuccessivo = databaseReference
           .collection('Barber')
           .doc('LorenzoStaff')
@@ -242,7 +233,6 @@ class UserHistoryPage extends State<UserHistory> {
       batch.delete(barberBookingSuccessivo);
       batch.delete(userBookingSuccessivo);
       batch.delete(barberBookingSlotSuccessivo);
-
     }
 
     batch.delete(userBooking);

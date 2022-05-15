@@ -1,27 +1,12 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:barber_lab_sabatini/screens/booking_screen.dart';
 import 'package:barber_lab_sabatini/screens/home_screen.dart';
 import 'package:barber_lab_sabatini/screens/login_screen.dart';
-import 'package:barber_lab_sabatini/screens/realhome_screen.dart';
 import 'package:barber_lab_sabatini/screens/user_history_screen.dart';
-import 'package:barber_lab_sabatini/screens/user_screen.dart';
-import 'package:barber_lab_sabatini/state/state_management.dart';
-import 'package:barber_lab_sabatini/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_ui/firebase_auth_ui.dart';
-import 'package:firebase_auth_ui/providers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-
-import 'model/user_model.dart';
-
-import 'dart:developer' as developer;
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +15,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -79,24 +63,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(),
-      initialRoute: FirebaseAuth.instance.currentUser == null? '/login' : '/home',
+      initialRoute:
+          FirebaseAuth.instance.currentUser == null ? '/login' : '/home',
     );
   }
 }
 
-
 class MyHomePage extends ConsumerWidget {
-
   GlobalKey<ScaffoldState> scaffoldState = new GlobalKey();
   int index = 0;
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    return Container(
-        child: Container()
-    );
+    return Container(child: Container());
   }
-
-
-
 }

@@ -1,25 +1,16 @@
 import 'dart:core';
-import 'dart:core';
-import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
-import 'package:barber_lab_sabatini/model/barber_model.dart';
 import 'package:barber_lab_sabatini/model/booking_model.dart';
-import 'package:barber_lab_sabatini/screens/booking_screen.dart';
 import 'package:barber_lab_sabatini/state/state_management.dart';
 import 'package:barber_lab_sabatini/utils/utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/all.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:intl/intl.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
-import 'home_screen.dart';
 
 class StaffHistory extends StatefulWidget {
   @override
@@ -93,8 +84,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                               children: [
                                                 Text(
                                                   'Data',
-                                                  style:
-                                                      GoogleFonts.raleway(),
+                                                  style: GoogleFonts.raleway(),
                                                 ),
                                                 Text(
                                                   DateFormat("dd/MM/yy").format(
@@ -114,8 +104,7 @@ class StaffHistoryPage extends State<StaffHistory> {
                                               children: [
                                                 Text(
                                                   'Orario',
-                                                  style:
-                                                      GoogleFonts.raleway(),
+                                                  style: GoogleFonts.raleway(),
                                                 ),
                                                 Text(
                                                   TIME_SLOT.elementAt(
@@ -128,7 +117,9 @@ class StaffHistoryPage extends State<StaffHistory> {
                                             ),
                                           ],
                                         ),
-                                        Divider(thickness: 1,),
+                                        Divider(
+                                          thickness: 1,
+                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -145,12 +136,10 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                   userBookings
                                                       .elementAt(index)
                                                       .note,
-                                                  style:
-                                                      GoogleFonts.raleway(
-                                                        fontSize: 14,
-                                                          fontWeight:
-                                                          FontWeight.bold
-                                                      ),
+                                                  style: GoogleFonts.raleway(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ],
                                             ),
@@ -160,30 +149,29 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                   'Nome',
                                                   style: GoogleFonts.raleway(
                                                       fontWeight:
-                                                      FontWeight.normal),
+                                                          FontWeight.normal),
                                                 ),
                                                 Text(
                                                   userBookings
                                                       .elementAt(index)
                                                       .customerName,
-                                                  style:
-                                                  GoogleFonts.raleway(
+                                                  style: GoogleFonts.raleway(
                                                       fontSize: 14,
                                                       fontWeight:
-                                                      FontWeight.bold
-                                                  ),
+                                                          FontWeight.bold),
                                                 ),
                                               ],
                                             ),
-
                                             Column(
                                               children: [
                                                 Text(
                                                   'Servizio scelto',
-                                                  style:
-                                                      GoogleFonts.raleway(),
+                                                  style: GoogleFonts.raleway(),
                                                 ),
-                                                Text(userBookings.elementAt(index).tipoServizio,
+                                                Text(
+                                                  userBookings
+                                                      .elementAt(index)
+                                                      .tipoServizio,
                                                   style: GoogleFonts.raleway(
                                                       fontSize: 14,
                                                       fontWeight:

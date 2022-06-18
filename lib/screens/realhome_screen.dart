@@ -430,6 +430,7 @@ class RealHomePage extends State<RealHome> {
     });
 
     User user = await FirebaseAuth.instance.currentUser;
+    FirebaseAuth.instance.signOut();
     user.delete();
     exit(0);
   }
@@ -437,11 +438,12 @@ class RealHomePage extends State<RealHome> {
   void showAlert(BuildContext context) {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (BuildContext context) {
           var nameProfileController = TextEditingController();
 
           return AlertDialog(
-            title: Text('Aggiorna le tue informazioni personali!'),
+            title: Text('Inserisci le tue informazioni personali!'),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             content: Container(

@@ -102,8 +102,7 @@ class RealHomePage extends State<RealHome> {
                                             actions: [
                                               TextButton(
                                                 child: Text('CANCELLA'),
-                                                onPressed:
-                                                    null, //TODO AGGIUNGERE QUI FUNZIONE
+                                                onPressed: deleteUser,
                                               )
                                             ]));
                               },
@@ -421,6 +420,17 @@ class RealHomePage extends State<RealHome> {
         .get();
 
     batch.delete(currentUser);
+
+    databaseReference
+        .collection('User')
+        .doc(FirebaseAuth.instance.currentUser.phoneNumber)
+        .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
+        .get()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
+        ds.reference.delete();
+      }
+    });
   }
 
   void showAlert(BuildContext context) {

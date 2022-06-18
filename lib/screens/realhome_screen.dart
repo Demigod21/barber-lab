@@ -105,8 +105,11 @@ class RealHomePage extends State<RealHome> {
                                             actions: [
                                               TextButton(
                                                 child: Text('CANCELLA'),
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   deleteUser();
+                                                  FirebaseAuth.instance
+                                                      .signOut();
+                                                  exit(0);
                                                 },
                                               )
                                             ]));
@@ -432,7 +435,6 @@ class RealHomePage extends State<RealHome> {
     User user = await FirebaseAuth.instance.currentUser;
     FirebaseAuth.instance.signOut();
     user.delete();
-    exit(0);
   }
 
   void showAlert(BuildContext context) {

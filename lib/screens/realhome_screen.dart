@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:barber_lab_sabatini/cloud_firestore/user_ref.dart';
 import 'package:barber_lab_sabatini/constants/constants.dart';
 import 'package:barber_lab_sabatini/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_ui/firebase_auth_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,7 +105,9 @@ class RealHomePage extends State<RealHome> {
                                             actions: [
                                               TextButton(
                                                 child: Text('CANCELLA'),
-                                                onPressed: deleteUser,
+                                                onPressed: () {
+                                                  deleteUser();
+                                                },
                                               )
                                             ]));
                               },
@@ -405,21 +410,13 @@ class RealHomePage extends State<RealHome> {
     }
   }
 
-  void deleteUser() {
+  Future<void> deleteUser() async {
     final databaseReference = FirebaseFirestore.instance;
-    var batch = FirebaseFirestore.instance.batch();
 
     var currentUser = databaseReference
         .collection('User')
-        .doc(FirebaseAuth.instance.currentUser.phoneNumber);
-
-    var allBookings = databaseReference
-        .collection('User')
         .doc(FirebaseAuth.instance.currentUser.phoneNumber)
-        .collection('Booking_${FirebaseAuth.instance.currentUser.uid}')
-        .get();
-
-    batch.delete(currentUser);
+        .delete();
 
     databaseReference
         .collection('User')
@@ -431,6 +428,10 @@ class RealHomePage extends State<RealHome> {
         ds.reference.delete();
       }
     });
+
+    User user = await FirebaseAuth.instance.currentUser;
+    user.delete();
+    exit(0);
   }
 
   void showAlert(BuildContext context) {

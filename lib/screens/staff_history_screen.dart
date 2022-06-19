@@ -124,34 +124,57 @@ class StaffHistoryPage extends State<StaffHistory> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Column(
-                                              children: [
-                                                Text(
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
                                                   'Note',
                                                   style: GoogleFonts.raleway(
                                                       fontWeight:
                                                           FontWeight.normal),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                                Text(
-                                                  userBookings
-                                                      .elementAt(index)
-                                                      .note,
-                                                  style: GoogleFonts.raleway(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                            Column(
-                                              children: [
-                                                Text(
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
                                                   'Nome',
                                                   style: GoogleFonts.raleway(
                                                       fontWeight:
                                                           FontWeight.normal),
                                                 ),
-                                                Text(
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                  'Servizio scelto',
+                                                  style: GoogleFonts.raleway(),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                                child: Center(
+                                              child: Text(
+                                                userBookings
+                                                    .elementAt(index)
+                                                    .note,
+                                                style: GoogleFonts.raleway(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )),
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
                                                   userBookings
                                                       .elementAt(index)
                                                       .customerName,
@@ -159,16 +182,13 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                            Column(
-                                              children: [
-                                                Text(
-                                                  'Servizio scelto',
-                                                  style: GoogleFonts.raleway(),
-                                                ),
-                                                Text(
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
                                                   userBookings
                                                       .elementAt(index)
                                                       .tipoServizio,
@@ -176,9 +196,10 @@ class StaffHistoryPage extends State<StaffHistory> {
                                                       fontSize: 14,
                                                       fontWeight:
                                                           FontWeight.bold),
+                                                  textAlign: TextAlign.center,
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            )
                                           ],
                                         )
                                       ],

@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Image.asset(
                       'assets/images/logo_bianco_rettangolare_1200_600.png')),
               Container(
-                margin: EdgeInsets.only(top: 5),
+                margin: EdgeInsets.only(top: 5, left: 10, right: 10),
                 child: Center(
                   child: Text(
                     'Autenticazione via cellulare',
@@ -47,7 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 0, right: 10, left: 10, bottom: 70),
+                margin:
+                    EdgeInsets.only(top: 0, right: 10, left: 10, bottom: 70),
                 child: TextField(
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         textAlign: TextAlign.center,
                         text: TextSpan(
                             text:
-                            'Clickando su avanti e registrando un account, si presta consenso\n',
+                                'Clickando su avanti e registrando un account, si presta consenso\n',
                             style: GoogleFonts.raleway(
                                 fontSize: 12, color: Colors.black),
                             children: [
@@ -81,7 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.black),
-                                  text: 'alle condizioni presenti nella Privacy Policy',
+                                  text:
+                                      'alle condizioni presenti nella Privacy Policy',
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
                                       showDialog(
@@ -98,14 +100,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: Colors.black
-                    ),
-                    onPressed: !isAvantiOk? null : () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OTPScreen(_controller.text)));
-
-                    },
+                    style: ElevatedButton.styleFrom(primary: Colors.black),
+                    onPressed: !isAvantiOk
+                        ? null
+                        : () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    OTPScreen(_controller.text)));
+                          },
                     child: Text(
                       'Avanti',
                       style: TextStyle(color: Colors.white),
@@ -118,8 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: FlatButton(
                     color: Colors.black,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => GuestHome()));
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => GuestHome()));
                     },
                     child: Text(
                       'Continua come ospite',
@@ -127,35 +129,32 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 )
-
               ],
             )
-
           ],
         ),
       ),
     );
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _controller = TextEditingController();
     _controller.addListener(() {
       bool isActive = _controller.text.isNotEmpty;
-      if(isActive){
+      if (isActive) {
         isActive = _controller.text.length > 8 ? true : false;
       }
       setState(() {
         this.isAvantiOk = isActive;
       });
-
     });
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
 }

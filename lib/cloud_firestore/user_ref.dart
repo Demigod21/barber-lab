@@ -38,6 +38,16 @@ Future<List<int>> getTimeSlotLorenzo(String date) async {
 
   List<int> result = new List<int>.empty(growable: true);
 
+  //if the selected date is in the collection ferie, we treat it as a day with all timeslots occupied
+  var ferieRef = databaseReference.collection('Ferie');
+  var doc = await ferieRef.doc(date).get();
+  if (doc.exists) {
+    for (int i = 0; i < 20; i++) {
+      result.add(i);
+    }
+    return result;
+  }
+
   var bookingRef = databaseReference
       .collection('Barber')
       .doc('LorenzoStaff')

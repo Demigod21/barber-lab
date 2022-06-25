@@ -17,6 +17,8 @@ class RealHome extends StatefulWidget {
 }
 
 class RealHomePage extends State<RealHome> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -97,22 +99,66 @@ class RealHomePage extends State<RealHome> {
                               onPressed: () {
                                 showDialog(
                                     context: context,
-                                    builder: (context) => AlertDialog(
-                                            title: Text(
-                                                'Conferma cancellazione account'),
-                                            content: Text(
-                                                'Clickando su CANCELLA si conferma la cancellazione del proprio profilo e delle relative informazioni e prenotazioni'),
-                                            actions: [
-                                              TextButton(
-                                                child: Text('CANCELLA'),
-                                                onPressed: () async {
+                                    builder: (context) {
+                                      final TextEditingController
+                                          _textEditingController =
+                                          TextEditingController();
+                                      bool isChecked = false;
+                                      return StatefulBuilder(
+                                          builder: (context, setState) {
+                                        return AlertDialog(
+                                          content: Form(
+                                              key: _formKey,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                      'Clickando su ELIMINA si conferma la cancellazione PERMANENTE del proprio profilo e delle relative informazioni e prenotazioni'),
+                                                  TextFormField(
+                                                    controller:
+                                                        _textEditingController,
+                                                    validator: (value) {
+                                                      return value.isNotEmpty &&
+                                                              value.toLowerCase() ==
+                                                                  "ELIMINA"
+                                                                      .toLowerCase()
+                                                          ? null
+                                                          : "Invalido";
+                                                    },
+                                                    decoration: InputDecoration(
+                                                        hintMaxLines: 5,
+                                                        hintText:
+                                                            "Scrivere ELIMINA per abilitare il bottone"),
+                                                  ),
+                                                ],
+                                              )),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('ANNULLA'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: Text(
+                                                'ELIMINA',
+                                                style: TextStyle(
+                                                    color: Colors.redAccent),
+                                              ),
+                                              onPressed: () {
+                                                if (_formKey.currentState
+                                                    .validate()) {
                                                   deleteUser();
                                                   FirebaseAuth.instance
                                                       .signOut();
                                                   exit(0);
-                                                },
-                                              )
-                                            ]));
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                    });
                               },
                               child: Icon(Icons.delete, color: Colors.red))
                         ],

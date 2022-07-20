@@ -37,8 +37,8 @@ android {
         applicationId "com.davide.falcone.barber_lab_sabatini"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.6"
 
         multiDexEnabled true
     }

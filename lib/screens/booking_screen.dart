@@ -268,7 +268,7 @@ class BookingPage extends State<Booking> {
                       DatePicker.showDatePicker(context,
                           showTitleActions: true,
                           minTime: now,
-                          maxTime: now.add(Duration(days: 31)),
+                          maxTime: now.add(Duration(days: 60)),
                           onConfirm: (date) =>
                               setState(() => this.selectedDate = date));
                     },
